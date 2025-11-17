@@ -22,6 +22,14 @@ Frontend/**/testem.log
 Frontend/**/typings
 Frontend/**/__screenshots__/
 
+#AI Tools
+Frontend/**/.claude
+Frontend/**/.cursor
+Frontend/**/.gemini
+Frontend/**/.github
+Frontend/**/.junie
+Frontend/**/.windsurf
+
 # ============================================
 # BACKEND (.NET)
 # ============================================
