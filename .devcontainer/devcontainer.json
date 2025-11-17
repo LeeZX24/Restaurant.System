@@ -1,0 +1,26 @@
+{
+  "name": "Angular + .NET  Monorepo",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:10.0",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "postCreateCommand": "dotnet restore Backend/Restaurant.System.Api && cd Frontend/Restaurant.System.Web && npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "angular.ng-template",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "forwardPorts": [4200, 5000, 5001],
+  "portsAttributes": {
+    "4200": { "label": "Angular (Dev)", "onAutoForward": "openPreview" },
+    "5000": { "label": "API HTTP" },
+    "5001": { "label": "API HTTPS" }
+  },
+  "remoteUser": "vscode"
+}
