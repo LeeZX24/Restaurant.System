@@ -1,0 +1,70 @@
+name: Monorepo CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        env:
+          SA_PASSWORD: "Your_password123"
+          ACCEPT_EULA: "Y"
+        options: >-
+          --health-cmd "exit 0"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Setup .NET 10 SDK
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      # Restore, build, and test backend
+      - name: Restore .NET projects
+        run: dotnet restore backend.sln
+
+      - name: Build .NET projects
+        run: dotnet build Backend/Backend.sln --no-restore --configuration Release
+
+      - name: Run backend tests
+        run: dotnet test Backend/Backend.sln --no-build --verbosity normal
+
+      # Optional: Build and test backend Docker image
+      # - name: Build backend Docker image
+      #   run: docker build -t backend:ci -f Dockerfile .
+
+  frontend:
+    runs-on: ubuntu-latest
+    needs: backend
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Setup Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install Angular dependencies
+      - run: npm ci
+        working-directory: Frontend/Restaurant.System.Web
+
+      # Run lint, tests, build
+      - run: npm run lint
+        working-directory: Frontend/Restaurant.System.Web
+      - run: npm run test -- --watch=false
+        working-directory: Frontend/Restaurant.System.Web
+      - run: npm run build
+        working-directory: Frontend/Restaurant.System.Web
