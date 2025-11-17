@@ -3,24 +3,24 @@
 # ============================================
 
 # Angular build outputs
-Frontend/**dist
-Frontend/**tmp
-Frontend/**out-tsc
-Frontend/**.angular/cache
+Frontend/**/dist
+Frontend/**/tmp
+Frontend/**/out-tsc
+Frontend/**/.angular/cache
 
 # Node modules and logs
-Frontend/**node_modules
-Frontend/**npm-debug.log
-Frontend/**yarn-error.log
+Frontend/**/node_modules
+Frontend/**/npm-debug.log
+Frontend/**/yarn-error.log
 
 # Miscellaneous
-Frontend/**.sass-cache/
-Frontend/**connect.lock
-Frontend/**coverage
-Frontend/**libpeerconnection.log
-Frontend/**testem.log
-Frontend/**typings
-Frontend/**__screenshots__/
+Frontend/**/.sass-cache/
+Frontend/**/connect.lock
+Frontend/**/coverage
+Frontend/**/libpeerconnection.log
+Frontend/**/testem.log
+Frontend/**/typings
+Frontend/**/__screenshots__/
 
 # ============================================
 # BACKEND (.NET)
