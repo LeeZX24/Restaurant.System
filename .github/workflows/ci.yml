@@ -33,7 +33,7 @@ jobs:
 
       # Restore, build, and test backend
       - name: Restore .NET projects
-        run: dotnet restore backend.sln
+        run: dotnet restore Backend/Backend.sln
 
       - name: Build .NET projects
         run: dotnet build Backend/Backend.sln --no-restore --configuration Release
