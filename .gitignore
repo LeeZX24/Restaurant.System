@@ -56,6 +56,9 @@ Backend/packages/
 Backend/*.DotSettings.user
 Backend/*.VC.db
 
+#Backend Specific Folder
+Backend/**/Migrations
+
 # ============================================
 # DOCKER
 # ============================================
