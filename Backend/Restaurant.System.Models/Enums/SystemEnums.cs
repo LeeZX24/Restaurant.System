@@ -1,25 +1,28 @@
-public enum OrderStatus
+namespace Restaurant.System.Models.Enums
 {
-    Pending,
-    Completed,
-    Cancelled
-}
+    public enum OrderStatus
+    {
+        Pending,
+        Completed,
+        Cancelled
+    }
 
-public enum PaymentStatus
-{
-    Pending,
-    Paid,
-    Failed
-}
+    public enum PaymentStatus
+    {
+        Pending,
+        Paid,
+        Failed
+    }
 
-public enum MenuDays
-{
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday,
-    AllDays,
+    public enum MenuDays
+    {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday,
+        AllDays,
+    }
 }

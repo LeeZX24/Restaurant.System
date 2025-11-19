@@ -1,6 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
-using Restaurant.System.Models;
+using Restaurant.System.Models.Entities;
 
 namespace Restaurant.System.Data
 {

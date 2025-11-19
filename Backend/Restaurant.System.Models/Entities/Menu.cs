@@ -1,12 +1,14 @@
-namespace Restaurant.System.Models;
+using Restaurant.System.Models.Enums;
 
-public class Menu
+namespace Restaurant.System.Models.Entities
 {
-    public int Id { get; set;}
-    public required string MenuCode { get; set; }
-    public required string MenuName { get; set; }
-    public MenuDays MenuDays { get; set; } = MenuDays.AllDays;
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
-    
-    public List<MenuCategory> MenuCategoryList { get; set; } = [];
+    public class Menu
+    {
+        public int Id { get; set; } // Primary Key
+        public required List<MenuCategory> MenuCategoryList { get; set; } // Foreign Key
+        public required string MenuCode { get; set; }
+        public required string MenuName { get; set; }
+        public MenuDays MenuDays { get; set; } = MenuDays.AllDays;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;   
+    } 
 }

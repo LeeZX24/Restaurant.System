@@ -1,12 +1,16 @@
-namespace Restaurant.System.Models;
+using Restaurant.System.Models.Enums;
 
-public class Order
+namespace Restaurant.System.Models.Entities
 {
-    public int Id { get; set;}
-    public required string OrderId { get; set; }
-    public List<OrderItem> Items { get; set;} = [];
-    public required Customer Customer { get; set; }
-    public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
-    public decimal TotalOrderAmount { get; set; }
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public class Order
+    {
+        public int Id { get; set; } // Primary Key
+        public required List<OrderItem> Items { get; set; } // Foreign Key
+        public required Customer Customer { get; set; } // Foreign Key
+        public required Payment Payment { get; set; } // Foreign Key
+        public required string OrderNumber { get; set; }
+        public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public decimal TotalOrderAmount { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+    }
 }
