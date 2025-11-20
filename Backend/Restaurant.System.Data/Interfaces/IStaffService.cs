@@ -4,7 +4,7 @@ namespace Restaurant.System.Data.Interfaces
 {
     public interface IStaffService
     {
-        Staff GetStaffDetails(string memberId);
-        Staff Login();
+        Task<List<Staff>> GetStaffList();
+        Task<Staff> GetStaffDetail(string userName);
     }
 }

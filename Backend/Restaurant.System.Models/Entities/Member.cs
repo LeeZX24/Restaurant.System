@@ -5,6 +5,7 @@ namespace Restaurant.System.Models.Entities
         public int Id { get; set; } // Primary Key
         public required Customer Customer { get; set; } // Foreign Key
         public required string MemberId { get; set; }
+        public required string CustomerId {get; set;}
         public required string Username { get; set; }
         public required string Password { get; set; }
         public required string FirstName { get; set; }

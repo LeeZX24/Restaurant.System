@@ -8,26 +8,25 @@ namespace Restaurant.System.Data.Repositories
     {
         private readonly IRepository<Member> _memberRepository;
 
-        public MemberService(IRepository<Member> memberRepository)
+        public MemberService(IRepository<Member> MemberRepository)
         {
-            _memberRepository = memberRepository;
+            _memberRepository = MemberRepository;
         }
 
-        public async Task<Member> GetMemberDetail(string memberId)
+        public async Task<List<Member>> GetMemberList() => await _memberRepository.GetAllAsync();
+
+        public async Task<Member> GetMemberDetail(string MemberId)
         {
-            var member = (await _memberRepository.GetByFieldAsync(e => e.MemberId == memberId)).FirstOrDefault();
+            var member = (await _memberRepository.GetByFieldAsync(e => e.MemberId == MemberId)).FirstOrDefault();
             
-            return member ?? throw new ArgumentNullException(nameof(member));
+            return member!;
         }
 
-        public async Task<List<Member>> GetMemberList()
+        public async Task<Member?> GetMemberByCustomer(string CustomerId)
         {
-            return await _memberRepository.GetAllAsync();
-        }
-
-        public Task<Member> Login(string userName, string password)
-        {
-            throw new NotImplementedException();
+            var member = (await _memberRepository.GetByFieldAsync(e => e.CustomerId == CustomerId)).FirstOrDefault();
+            
+            return member;
         }
     }
 }

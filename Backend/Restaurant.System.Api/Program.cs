@@ -1,5 +1,12 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Restaurant.System.Data;
+using Restaurant.System.Data.Extensions;
+using Restaurant.System.Data.Repositories;
+using Restaurant.System.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +17,47 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDataDependencies();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options => 
+options.TokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = builder.Configuration["JwtSettings:Issuer"], 
+    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+    IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!))   
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
+    // .AddGoogle(options =>
+    // {
+    //     // Google configuration options
+    // })
+    // .AddFacebook(options =>
+    // {
+    //     // Facebook configuration options
+    // })
+    // .AddMicrosoftAccount(options =>
+    // {
+    //     // Microsoft Account configuration options
+    // })
+    // .AddTwitter(options =>
+    // {
+    //     // Twitter configuration options
+    // });
 
 var app = builder.Build();
 

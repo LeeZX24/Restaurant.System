@@ -6,7 +6,7 @@ namespace Restaurant.System.Data.Interfaces
     public interface IMemberService
     {
         Task<List<Member>> GetMemberList();
-        Task<Member> GetMemberDetail(string memberId);
-        Task<Member> Login(string userName, string password);
+        Task<Member> GetMemberDetail(string MemberId);
+        Task<Member?> GetMemberByCustomer(string CustomerId);
     }
 }

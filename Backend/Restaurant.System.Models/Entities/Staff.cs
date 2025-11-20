@@ -4,7 +4,8 @@ namespace Restaurant.System.Models.Entities
     {
         public int Id { get; set; } // Primary Key
         public required List<Role> StaffRoles { get; set; } // Foreign Key
-        public required string Username { get; set; }
+        public List<Order> OrderHistory { get; set; } = new List<Order>(); // Foreign Key
+        public required string UserName { get; set; }
         public required string Password { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
