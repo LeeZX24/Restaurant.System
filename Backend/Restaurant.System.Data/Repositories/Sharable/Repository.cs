@@ -17,7 +17,7 @@ namespace Restaurant.System.Data.Repositories
         #endregion
         
         #region Get Methods
-        public async Task<T?> GetAsync(int id) => await _dbSet.FindAsync(id);
+        public async Task<T> GetAsync(int id) => await _dbSet.FindAsync(id);
 
         public async Task<List<T>> GetByFieldAsync(Expression<Func<T, bool>> expression) 
         => await _dbSet.Where(expression).ToListAsync();

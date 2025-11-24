@@ -62,6 +62,9 @@
             },
             "development": {
               "buildTarget": "Restaurant.System.Web:build:development"
+            },
+            "options": {
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

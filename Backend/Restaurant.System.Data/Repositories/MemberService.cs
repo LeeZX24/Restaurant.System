@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Restaurant.System.Data.Interfaces;
 using Restaurant.System.Models.Entities;
 
@@ -19,10 +18,10 @@ namespace Restaurant.System.Data.Repositories
         {
             var member = (await _memberRepository.GetByFieldAsync(e => e.MemberId == MemberId)).FirstOrDefault();
             
-            return member!;
+            return member;
         }
 
-        public async Task<Member?> GetMemberByCustomer(string CustomerId)
+        public async Task<Member> GetMemberByCustomer(string CustomerId)
         {
             var member = (await _memberRepository.GetByFieldAsync(e => e.CustomerId == CustomerId)).FirstOrDefault();
             

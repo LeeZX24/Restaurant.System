@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Restaurant.System.Models.Dtos;
+using Restaurant.System.Models.Dtos.Shared;
 
 namespace Restaurant.System.Services.Interfaces
 {
     public interface IAuthService
     {
-        public Task<string?> LoginByUserNameAsync(UserDto user);
-        public Task<string?> LoginByEmailAsync(UserDto user);
-        public Task<string?> RegisterAsync(CustomerDto customer);
+        public Task<UserDto> LoginAsync(UserDto user);
+        public Task<UserDto> RegisterAsync(CustomerDto customer);
     }
 }

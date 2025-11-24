@@ -1,48 +1,60 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Restaurant.System.Data;
 using Restaurant.System.Data.Extensions;
-using Restaurant.System.Data.Repositories;
-using Restaurant.System.Models.Entities;
+using Restaurant.System.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevelopmentPolicy", policy =>
+    {
+        policy
+            .SetIsOriginAllowed(_ => true) // <-- Allows Codespaces dynamic URL
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+
+    options.AddPolicy("ProductionPolicy", policy =>
+    {
+        policy
+            .SetIsOriginAllowed(_ => true) // <-- Allows Codespaces dynamic URL
+            .WithOrigins("https://vigilant-fiesta-q7644xj6wqgwh657j-4200.app.github.dev")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// builder.Services.AddAuthentication(options =>
+// {
+//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// })
+// .AddJwtBearer(options => 
+// options.TokenValidationParameters = new TokenValidationParameters
+// {
+//     ValidateIssuer = true,
+//     ValidateAudience = true,
+//     ValidateLifetime = true,
+//     ValidateIssuerSigningKey = true,
+//     ValidIssuer = builder.Configuration["JwtSettings:Issuer"], 
+//     ValidAudience = builder.Configuration["JwtSettings:Audience"],
+//     IssuerSigningKey = new SymmetricSecurityKey(
+//             Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))   
+// });
 
-builder.Services.AddDataDependencies();
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options => 
-options.TokenValidationParameters = new TokenValidationParameters
-{
-    ValidateIssuer = true,
-    ValidateAudience = true,
-    ValidateLifetime = true,
-    ValidateIssuerSigningKey = true,
-    ValidIssuer = builder.Configuration["JwtSettings:Issuer"], 
-    ValidAudience = builder.Configuration["JwtSettings:Audience"],
-    IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!))   
-});
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
-    // .AddGoogle(options =>
+// .AddGoogle(options =>
     // {
     //     // Google configuration options
     // })
@@ -59,7 +71,47 @@ builder.Services.AddAuthorization(options =>
     //     // Twitter configuration options
     // });
 
+
+
+// builder.Services.AddAuthorization(options =>
+// {
+//     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+// });
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDataDependencies();
+builder.Services.AddServiceDependencies();
+
 var app = builder.Build();
+
+// if(!app.Environment.IsDevelopment())
+// {
+//     app.UseHttpsRedirection();
+// }
+
+app.UseRouting();
+app.UseCors(app.Environment.IsDevelopment() ? "DevelopmentPolicy" : "ProductionPolicy");
+
+app.Use(async (ctx, next) =>
+{
+    if (ctx.Request.Method == "OPTIONS")
+    {
+        ctx.Response.Headers["Access-Control-Allow-Origin"] = ctx.Request.Headers["Origin"];
+        ctx.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+        ctx.Response.Headers["Access-Control-Allow-Headers"] =
+            ctx.Request.Headers["Access-Control-Request-Headers"];
+
+        ctx.Response.StatusCode = 200;
+        return;
+    }
+
+    await next();
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,28 +119,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
-app.UseRouting();
 
-// var summaries = new[]
-// {
-//     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-// };
-
-// app.MapGet("/weatherforecast", () =>
-// {
-//     var forecast =  Enumerable.Range(1, 5).Select(index =>
-//         new WeatherForecast
-//         (
-//             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//             Random.Shared.Next(-20, 55),
-//             summaries[Random.Shared.Next(summaries.Length)]
-//         ))
-//         .ToArray();
-//     return forecast;
-// })
-// .WithName("GetWeatherForecast");
 
 app.MapControllers();
 app.MapFallbackToFile("index.html"); // <-- For Angular routes
@@ -96,8 +129,3 @@ app.MapFallbackToFile("index.html"); // <-- For Angular routes
 app.MapGet("/", () => Results.Text("API running"));
 
 app.Run();
-
-// record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-// {
-//     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-// }

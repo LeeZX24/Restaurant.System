@@ -4,7 +4,7 @@ namespace Restaurant.System.Data
 {
     public interface IRepository<T> where T : class
     {
-        Task<T?> GetAsync(int id);
+        Task<T> GetAsync(int id);
         Task<List<T>> GetByFieldAsync(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAllAsync();
         Task<List<T>> SelectAsync(Expression<Func<T, bool>> expression);

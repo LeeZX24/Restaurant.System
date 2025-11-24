@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using Restaurant.System.Models.Entities;
 
@@ -29,5 +28,24 @@ namespace Restaurant.System.Data
         
         //Payment
         public DbSet<Payment> Payments => Set<Payment>();
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Customer>().HasKey(c => c.CustomerId);
+            builder.Entity<Member>().HasKey(m => m.CustomerId);
+            
+            builder.Entity<Customer>()
+                .HasOne(c => c.MemberDetails)
+                .WithOne(m => m.Customer)
+                .HasForeignKey<Member>(m => m.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);  // <--- IMPORTANT
+                 
+            builder.Entity<Staff>()
+                .HasMany(s => s.Roles)
+                .WithMany(r => r.Staffs)
+                .UsingEntity(j => j.ToTable("StaffRoles"));
+        }
     }
 }

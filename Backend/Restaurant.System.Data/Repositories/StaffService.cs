@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Restaurant.System.Data.Interfaces;
 using Restaurant.System.Models.Entities;
 
@@ -19,7 +18,7 @@ namespace Restaurant.System.Data.Repositories
         {
             var staff = (await _staffRepository.GetByFieldAsync(e => e.UserName == userName)).FirstOrDefault();
             
-            return staff!;
+            return staff;
         }
     }
 }

@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Restaurant.System.Data;
 using Restaurant.System.Data.Interfaces;
 using Restaurant.System.Models.Dtos;
+using Restaurant.System.Models.Dtos.Shared;
 using Restaurant.System.Models.Entities;
 using Restaurant.System.Services.Interfaces;
 
@@ -33,54 +30,77 @@ namespace Restaurant.System.Services.Services
             _configuration = Configuration;
             _memberRepository = MemberRepository;
         }
-        public async Task<string?> LoginByEmailAsync(UserDto user)
+
+        public async Task<UserDto> LoginAsync(UserDto user)
         {
-            //Get Member
-            var member = await _customerService.GetMemberAsync(user.Email!);
-            if (member == null) return null;
+            var userDto = new UserDto();
+            if(!string.IsNullOrEmpty(user.Email))
+            {
+                var member = await _customerService.GetMemberAsync(user.Email);
+                if (member != null)
+                {
+                    //Check Password
+                    // var passwordValid = BCrypt.Net.BCrypt.Verify(user.Password, member.Password);
+                    // if(passwordValid)
 
-            //Check Password
-            var passwordValid = BCrypt.Net.BCrypt.Verify(user.PasswordHash, member.Password);
-            if (!passwordValid) return null;
+                    if(user.Password == member.Password)
+                    {
+                        userDto.Email = user.Email;
+                        userDto.Password = user.Password;
+                        userDto.Token = GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer");
+                    }
+                    else return null;
+                }
+                else return null;
+            }
 
-            return GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer");
+            if(!string.IsNullOrEmpty(user.UserName))
+            {
+                var staff = await _staffService.GetStaffDetail(user.UserName);
+                if (staff != null)
+                {
+                    //Check Password
+                    // var passwordValid = BCrypt.Net.BCrypt.Verify(user.Password, staff.Password);
+                    // if (!passwordValid) return null;
+
+                    if(user.Password == staff.Password)
+                    {
+                        if(staff.Roles != null && staff.Roles.Count > 0)
+                        {
+                            var role = staff.Roles.FirstOrDefault();
+                            userDto.UserName = user.UserName;
+                            userDto.Password = user.Password;
+                            userDto.Token = GenerateJwtToken(staff.Id.ToString(), staff.UserName, role.RoleCode, role.RoleName);
+                        }
+                    }
+                    else return null;
+                }
+                else return null;
+            }
+
+            return userDto;
         }
 
-        public async Task<string?> LoginByUserNameAsync(UserDto user)
+        public async Task<UserDto> RegisterAsync(CustomerDto customer)
         {
-            var staff = await _staffService.GetStaffDetail(user!.UserName!);
-            if (staff == null) return null;
+            // var cust = await _customerService.GetCurrentCustomer(customer.CurrentCustomerNumber);
+            // if(!cust.IsAnonymous) return null;
 
-            //Check Password
-            var passwordValid = BCrypt.Net.BCrypt.Verify(user.PasswordHash, staff.Password);
-            if (!passwordValid) return null;
+            var member = await _customerService.GetMemberAsync(customer.Email);
+            if (member != null) return null;
 
-            var role = staff.StaffRoles.FirstOrDefault();
-            if(role == null) return null;
-            
-            return GenerateJwtToken(staff.Id.ToString(), staff.UserName, role.RoleCode, role.RoleName);
-        }
-
-        public async Task<string?> RegisterAsync(CustomerDto customer)
-        {
-            var cust = await _customerService.GetCurrentCustomer("1");
-            if(!cust.IsAnonymous) return null ;
-
-            var member = await _customerService.GetMemberAsync(customer.Email!);
-            if (member != null) return "Member Is Exists";
-
-            string PasswordHash = BCrypt.Net.BCrypt.HashPassword(customer.PasswordHash);
+            string Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
             
             var newMember = new Member
             {
-              Email = customer.Email!,
-              Username = customer.UserName!,
-              Password = PasswordHash,
-              MemberId = "",
-              Customer = cust,
-              CustomerId = cust.CustomerId,
+              Email = customer.Email,
+              Username = customer.UserName,
+              Password = Password,
+              MemberId = "1",
+              Customer = new Customer{ CustomerId = customer.CurrentCustomerNumber, IsAnonymous=false, CreatedAt = DateTime.Now },
+              CustomerId = customer.CurrentCustomerNumber,
               FirstName = customer.FirstName,
-              LastName = customer.LastName!,
+              LastName = customer.LastName,
               DateOfBirth = customer.DateOfBirth,
               LoginDateTime = DateTime.Now,
               LogoutDateTime = DateTime.Now,
@@ -89,8 +109,16 @@ namespace Restaurant.System.Services.Services
             await _memberRepository.AddAsync(newMember);
             
             await _memberRepository.SaveChangesAsync();
+
+            var userDto = new UserDto
+            {
+                Email = customer.Email,
+                UserName = customer.UserName,
+                Password = Password,
+                Token = GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer")
+            };
             
-            return $"{string.Concat("Member ", newMember.Username, " Add Successful.")}";
+            return userDto;
         }
 
         private string GenerateJwtToken(string userId, string userName, string role, string userType)

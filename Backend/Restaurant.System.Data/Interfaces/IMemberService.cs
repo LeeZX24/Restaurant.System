@@ -1,4 +1,3 @@
-using Restaurant.System.Models;
 using Restaurant.System.Models.Entities;
 
 namespace Restaurant.System.Data.Interfaces
@@ -7,6 +6,6 @@ namespace Restaurant.System.Data.Interfaces
     {
         Task<List<Member>> GetMemberList();
         Task<Member> GetMemberDetail(string MemberId);
-        Task<Member?> GetMemberByCustomer(string CustomerId);
+        Task<Member> GetMemberByCustomer(string CustomerId);
     }
 }

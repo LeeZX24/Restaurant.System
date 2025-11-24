@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Restaurant.System.Data.Interfaces;
 using Restaurant.System.Models.Entities;
 
@@ -16,20 +15,26 @@ namespace Restaurant.System.Data.Repositories
         public async Task<bool> IsCustomerAnonymous(string customerId)
         {
             var customer = (await _customerRepository.GetByFieldAsync(e => e.CustomerId == customerId)).FirstOrDefault();
-            return customer!.IsAnonymous;
+            return customer.IsAnonymous;
+        }
+
+        public async Task<Customer> GetLatestCustomer()
+        {
+            var customerList = await _customerRepository.GetAllAsync();
+            return customerList.Last() ?? null;
         }
 
         public async Task<Customer> GetCurrentCustomer(string customerId)
         {
             var customer = (await _customerRepository.GetByFieldAsync(e => e.CustomerId == customerId)).FirstOrDefault();
-            return customer!;
+            return customer;
         }
 
         public async Task<Member> GetMemberAsync(string email)
         {
             var customer = (await _customerRepository.GetByFieldAsync(e => e.MemberDetails != null && e.MemberDetails.Email == email)).FirstOrDefault();
 
-            return customer!.MemberDetails!;
+            return customer.MemberDetails;
         }
     }
 }

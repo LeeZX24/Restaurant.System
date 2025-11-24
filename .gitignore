@@ -39,6 +39,7 @@ Backend/**/bin/
 Backend/**/obj/
 Backend/**/Debug/
 Backend/**/Release/
+Backend/**/wwwroot/
 
 # User-specific files
 Backend/*.user
