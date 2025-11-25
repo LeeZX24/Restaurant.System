@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UserDto } from '../../../shared/models/user.dto';
+import { UserDto } from '../../../shared/models/dtos/user.dto';
 import { getRuntimeBaseUrl } from '../../../utils/runtime-env';
 // import { CustomerDto } from '../../../pages/customer/customer.dto';
 

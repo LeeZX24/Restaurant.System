@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.System.Models.Dtos;
 using Restaurant.System.Models.Dtos.Shared;
@@ -16,9 +17,11 @@ namespace Restaurant.System.Controllers.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login([FromBody] UserDto loginDto)
         {
+            Console.WriteLine(loginDto);
             var user = await _authService.LoginAsync(loginDto);
             if (user == null)
             return Unauthorized();
@@ -27,6 +30,7 @@ namespace Restaurant.System.Controllers.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register([FromBody] CustomerDto customer)
         {

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service/auth.service';
-import { UserDto } from '../../shared/models/user.dto';
+import { AuthService } from '../../app/core/services/auth.service/auth.service';
+import { UserDto } from '../../app/shared/models/dtos/user.dto';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   private authServ = inject(AuthService);
-
 
   loginForm = new FormGroup({
     email : new FormControl('',{validators: [Validators.required, Validators.email], nonNullable: true}),
@@ -63,8 +62,9 @@ export class LoginComponent {
     // this.router.navigate(['/']);
   }
 
-  private handleLoginError(err: undefined) {
+  private handleLoginError(err: any) {
     //this.errorMessage = err.error?.message ?? "Login failed";
-    console.log('${err.error?.message ?? "Login failed"}');
+    const error = err.error?.message ?? "Login failed";
+    console.log(error);
   }
 }
