@@ -1,0 +1,21 @@
+<custom-label-form-control-base  [fc]="fc" [labelSize]="labelSize" [inputSize]="inputSize">
+  <input />
+  <ng-container attach>
+    <ng-content select="[attach]"></ng-content>
+  </ng-container>
+
+  <ng-content></ng-content>
+</custom-label-form-control-base>
+
+<!-- <cs-label-element-base [fc]="fc" [colLabelSize]="colLabelSize" [colInputSize]="colInputSize">
+  <input class="form-control form-control-sm" [formControl]="fc" [ngClass]="fc.elementCssClass" type="text"
+      (input)="convertToUppercase($event)" [mask]="fc.mask" [validation]="fc.mask_validation"
+      [maxlength]="fc.maxlength" [minlength]="fc.minlength" [placeholder]="fc.placeholder" [readonly]="fc.readonly"
+      #input />
+
+  <ng-container attach>
+      <ng-content select="[attach]"></ng-content>
+  </ng-container>
+
+  <ng-content></ng-content>
+</cs-label-element-base> -->

@@ -62,9 +62,10 @@ export class LoginComponent {
     // this.router.navigate(['/']);
   }
 
-  private handleLoginError(err: any) {
-    //this.errorMessage = err.error?.message ?? "Login failed";
-    const error = err.error?.message ?? "Login failed";
-    console.log(error);
+  private handleLoginError(err: unknown) {
+  //   //this.errorMessage = err.error?.message ?? "Login failed";
+  //   const error = err.error?.message ?? "Login failed";
+  //   console.log(error);
+    console.log(err);
   }
 }
