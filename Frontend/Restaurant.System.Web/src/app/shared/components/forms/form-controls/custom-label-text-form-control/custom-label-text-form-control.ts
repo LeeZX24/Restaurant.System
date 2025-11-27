@@ -1,5 +1,5 @@
 import { ControlValueAccessor, FormControl, ValidatorFn, Validators } from "@angular/forms";
-import { CustomLabelFormControlBase, CustomLabelFormControlBaseOption, CustomLabelFormControlBaseOptions } from "../base/custom-label-form-control-base/custom-label-form-control-base";
+import { CustomLabelFormControlBase, CustomLabelFormControlBaseOption, CustomLabelFormControlBaseOptions } from "../../base/custom-label-form-control-base/custom-label-form-control-base";
 
 export class CustomLabelTextFormControlOptions extends CustomLabelFormControlBaseOptions {
   static readonly mask = 'mask';
@@ -22,7 +22,7 @@ export interface CustomTextLabelFormControlOption extends CustomLabelFormControl
   capitalized?: boolean;
 }
 
-export abstract class CustomLabelTextFormControl extends CustomLabelFormControlBase {
+export class CustomLabelTextFormControl extends CustomLabelFormControlBase {
   mask!: string;
   minlength!: number;
   maxlength!: number;
@@ -31,7 +31,7 @@ export abstract class CustomLabelTextFormControl extends CustomLabelFormControlB
   readonly!: boolean;
   capitalized!: boolean;
 
-  constructor(label: string, options: CustomLabelTextFormControl, value: any, validator: any = null) {
+  constructor(label: string, options: CustomTextLabelFormControlOption, value: any, validator: any = null) {
     super(label, options, value, validator);
     this._setOptions();
   }

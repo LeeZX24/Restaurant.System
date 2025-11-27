@@ -1,21 +1,19 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { CustomLabelFormControlBaseComponent } from "../../base/custom-label-form-control-base/custom-label-form-control-base.component";
-import { CustomLabelTextFormControl } from './custom-label-text-form-control';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { FormsModule } from "@angular/forms";
-import { NgxMaskDirective } from "ngx-mask";
 import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../shared.module';
+import { CustomLabelTextFormControl } from '../custom-label-text-form-control/custom-label-text-form-control';
+import { CustomLabelFormControlBaseComponent } from '../../base/custom-label-form-control-base/custom-label-form-control-base.component';
 
 @Component({
-  selector: 'custom-label-text-form-control.component',
+  selector: 'custom-label-email-form-control',
   imports: [...SHARED_IMPORTS, ...SHARED_EXPORTS, NgClass, CustomLabelFormControlBaseComponent],
-  templateUrl: './custom-label-text-form-control.component.html',
-  styleUrl: './custom-label-text-form-control.component.css',
+  templateUrl: './custom-label-email-form-control.component.html',
+  styleUrl: './custom-label-email-form-control.component.css',
 })
-export class CustomLabelTextFormControlComponent implements OnInit {
+export class CustomLabelEmailFormControlComponent implements OnInit {
   @Input() fc!: CustomLabelTextFormControl;
-  @Input() labelSize: string = '';
-  @Input() inputSize: string = '';
+  @Input() labelSize: string = 'col-lg-4';
+  @Input() inputSize: string = 'col-lg-6';
 
   @ViewChild("input") private _input!: ElementRef;
 

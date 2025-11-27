@@ -3,26 +3,44 @@ import { Validators, FormGroup, FormControl, FormsModule, ReactiveFormsModule } 
 import { AuthService } from '../../app/core/services/auth.service/auth.service';
 import { UserDto } from '../../app/shared/models/dtos/user.dto';
 import { CommonModule } from '@angular/common';
+import { CustomLabelEmailFormControlComponent } from "../../app/shared/components/forms/form-controls/custom-label-email-form-control/custom-label-email-form-control.component";
+import { CustomLabelTextFormControl } from '../../app/shared/components/forms/form-controls/custom-label-text-form-control/custom-label-text-form-control';
+import { CustomFormGroup } from '../../app/shared/components/forms/form-groups/form-group';
+import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../app/shared/shared.module';
+import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   standalone: true,
-  imports:
-  [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+  imports: [
+    ...SHARED_IMPORTS,
+    ...SHARED_EXPORTS,
+    CustomLabelEmailFormControlComponent,
+  ],
+  providers: [
+    provideNgxMask(),
   ]
 })
 export class LoginComponent {
   private authServ = inject(AuthService);
+  loginForm: FormGroup = this.createForm();
 
-  loginForm = new FormGroup({
-    email : new FormControl('',{validators: [Validators.required, Validators.email], nonNullable: true}),
-    password: new FormControl('',{validators: [Validators.required], nonNullable: true},),
-  });
+
+  createForm(): CustomFormGroup {
+    let fg = new CustomFormGroup();
+
+    fg.addControl('email', new CustomLabelTextFormControl('Email', { required: true,}, ''));
+    fg.addControl('password', new FormControl('',{validators: [Validators.required], nonNullable: true},));
+    return fg;
+  }
+
+  get emailFC() { return <CustomLabelTextFormControl>this.getFormControl('email'); }
+
+  getFormControl(name: string) {
+    return this.loginForm.get(name);
+  }
 
   // form = this.fb.group({
   //   email: ['', [Validators.required, Validators.email]],

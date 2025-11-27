@@ -1,5 +1,5 @@
 <custom-label-form-control-base  [fc]="fc" [labelSize]="labelSize" [inputSize]="inputSize">
-  <input class="form-control" [formControl]="fc" [ngClass]="fc.elementCssClass" type="text"
+  <input class="form-control" [formControl]="fc" [ngClass]="fc.elementCssClass" type="email"
     (input)="convertToUppercase($event)" [mask]="fc.mask" [validation]="fc.mask_validation"
     [maxlength]="fc.maxlength" [minlength]="fc.minlength" [placeholder]="fc.placeholder" [readonly]="fc.readonly" />
   <ng-container attach>

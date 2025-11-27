@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../../shared.module';
+import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../shared.module';
 import { NgClass } from '@angular/common';
 import { CustomLabelFormControlBase } from './custom-label-form-control-base';
 
