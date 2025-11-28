@@ -5,11 +5,11 @@ import { Dictionary } from "../../../../../utils/dictionary";
 
 
 export class CustomFormControl extends CustomFormControlBase {
-  constructor(formState?: any, validatorOrOpts?: ValidatorFn[] | null) {
-    if (!!formState) {
+  constructor(formState?: unknown, validatorOrOpts?: ValidatorFn[] | null) {
+    if (formState) {
       const fsKyes = Object.keys(formState);
       if (fsKyes.length === 1 && fsKyes[0].toLowerCase() === 'value') {
-        formState = formState['value'];
+        formState = (formState as { value: unknown }).value;
       }
     }
     super(formState);
@@ -22,33 +22,33 @@ export class CustomFormControl extends CustomFormControlBase {
   public configChange$: Subject<void>;
 
   public get ui(): ICustomFormControlUI {
-    const ths = this;
+    const self = this as CustomFormControl;
     return {
       setType(value: FCType): CustomFormControl {
-        ths._type = value;
-        ths.configChange$.next();
-        return ths;
+        self._type = value;
+        self.configChange$.next();
+        return self;
       },
       setLabel(value: string): CustomFormControl {
-        ths._label = value;
-        ths.configChange$.next();
-        return ths;
+        self._label = value;
+        self.configChange$.next();
+        return self;
       },
       setVisible(value): CustomFormControl {
-        ths._visible = value === true ? true : false;
-        ths.configChange$.next();
-        return ths;
+        self._visible = value === true ? true : false;
+        self.configChange$.next();
+        return self;
       },
-      setPosition(row: number, col: number, tab: number = 0): void {
+      setPosition(row: number, col: number, tab = 0): void {
         tab = tab || 0;
-        const fgPositions = new Dictionary(ths.__fg.customFormControlsDict).values.map(fc => fc.position);
+        const fgPositions = new Dictionary(self.__fg.customFormControlsDict).values.map(fc => fc.position);
         // if position row is taken
         if (fgPositions.some(x => x[0] === col && x[1] === row && x[2] === tab)) {
           const rowNumbers = fgPositions.filter(p => p[0] === col && p[2] === tab).map(p => p[1]);
           row = rowNumbers.sort((a, b) => b - a)[0] + 1;
         }
-        ths._position = [row, col, tab];
-        ths.configChange$.next();
+        self._position = [row, col, tab];
+        self.configChange$.next();
       }
     };
   }
@@ -90,7 +90,7 @@ export class CustomFormControl extends CustomFormControlBase {
     return this;
   }
 
-  public setDisabled(value: any): CustomFormControl { value === true ? this.disable() : this.enable(); return this; }
+  public setDisabled(value: unknown): CustomFormControl { if(value === true) this.disable(); else this.enable(); return this; }
   public setRequired(value: boolean): CustomFormControl {
     this._required = value;
     this.updateValidators();
@@ -132,7 +132,7 @@ export class CustomFormControl extends CustomFormControlBase {
 export interface ICustomFormControlUI {
     setType(value: FCType): CustomFormControl;
     setLabel(value: string): CustomFormControl;
-    setVisible(value: any): CustomFormControl;
+    setVisible(value: unknown): CustomFormControl;
     /**
      * sets the position of form control input in form appearance
      */

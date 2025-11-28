@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthInterceptor {
-  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
+  intercept<T>(req: HttpRequest<T>, next: HttpHandler) {
     const token = localStorage.getItem('token');
 
     if (token) {

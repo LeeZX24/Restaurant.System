@@ -1,5 +1,5 @@
 <div class="flex flex-wrap">
-  <label class="block text-sm font-medium text-gray-700" [ngClass]="labelSize">
+  <label [attr.for]="inputId" class="block text-sm font-medium text-gray-700" [ngClass]="labelSize">
     {{ fc.label }}
   </label>
   <div [ngClass]="inputSize">

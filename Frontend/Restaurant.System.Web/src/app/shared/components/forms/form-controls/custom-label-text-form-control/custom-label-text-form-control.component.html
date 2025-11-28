@@ -1,4 +1,4 @@
-<custom-label-form-control-base [fc]="fc" [labelSize]="labelSize" [inputSize]="inputSize">
+<rs-label-form-control-base [fc]="fc" [labelSize]="labelSize" [inputSize]="inputSize">
   <input class="" [formControl]="fc" [ngClass]="fc.elementCssClass" type="text"
     (input)="convertToUppercase($event)" [mask]="fc.mask" [validation]="fc.mask_validation"
     [maxlength]="fc.maxlength" [minlength]="fc.minlength" [placeholder]="fc.placeholder" [readonly]="fc.readonly" #input />
@@ -7,4 +7,4 @@
   </ng-container>
 
   <ng-content></ng-content>
-</custom-label-form-control-base>
+</rs-label-form-control-base>

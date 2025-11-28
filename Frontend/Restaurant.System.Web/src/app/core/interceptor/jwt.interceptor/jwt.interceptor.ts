@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service/auth.service';
 export class JwtInterceptor implements HttpInterceptor {
   private auth = inject(AuthService);
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
     const currentUser = this.auth.getCurrentUserValue(); // typed as User | null
 
     if (currentUser?.token) {

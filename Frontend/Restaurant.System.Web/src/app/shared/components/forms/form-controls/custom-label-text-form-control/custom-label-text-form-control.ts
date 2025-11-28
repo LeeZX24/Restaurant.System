@@ -1,7 +1,7 @@
-import { ControlValueAccessor, FormControl, ValidatorFn, Validators } from "@angular/forms";
-import { CustomLabelFormControlBase, CustomLabelFormControlBaseOption, CustomLabelFormControlBaseOptions } from "../../base/custom-label-form-control-base/custom-label-form-control-base";
+import { Validators } from "@angular/forms";
+import { RSFormValidators, RSLabelFormControlBase, RSLabelFormControlBaseOption, RSLabelFormControlBaseOptions } from "../../base/custom-label-form-control-base/custom-label-form-control-base";
 
-export class CustomLabelTextFormControlOptions extends CustomLabelFormControlBaseOptions {
+export class RSLabelTextFormControlOptions extends RSLabelFormControlBaseOptions {
   static readonly mask = 'mask';
   static readonly minlength = 'minlength';
   static readonly maxlength = 'maxlength';
@@ -12,7 +12,7 @@ export class CustomLabelTextFormControlOptions extends CustomLabelFormControlBas
 
 };
 
-export interface CustomTextLabelFormControlOption extends CustomLabelFormControlBaseOption {
+export interface RSLabelTextFormControlOption extends RSLabelFormControlBaseOption {
   mask?: string;
   minlength?: number;
   maxlength?: number;
@@ -22,7 +22,7 @@ export interface CustomTextLabelFormControlOption extends CustomLabelFormControl
   capitalized?: boolean;
 }
 
-export class CustomLabelTextFormControl extends CustomLabelFormControlBase {
+export class RSLabelTextFormControl extends RSLabelFormControlBase {
   mask!: string;
   minlength!: number;
   maxlength!: number;
@@ -31,7 +31,7 @@ export class CustomLabelTextFormControl extends CustomLabelFormControlBase {
   readonly!: boolean;
   capitalized!: boolean;
 
-  constructor(label: string, options: CustomTextLabelFormControlOption, value: any, validator: any = null) {
+  constructor(label: string, options: RSLabelTextFormControlOption, value: unknown, validator: RSFormValidators = null) {
     super(label, options, value, validator);
     this._setOptions();
   }
@@ -42,20 +42,20 @@ export class CustomLabelTextFormControl extends CustomLabelFormControlBase {
   }
 
   private _setOptions() {
-    this.mask = this.getOptionItem(CustomLabelTextFormControlOptions.mask);
-    this.minlength = this.getOptionItem(CustomLabelTextFormControlOptions.minlength);
-    this.maxlength = this.getOptionItem(CustomLabelTextFormControlOptions.maxlength);
-    this.placeholder = this.getOptionItem(CustomLabelTextFormControlOptions.placeholder);
-    this.mask_validation = this.getOptionItem(CustomLabelTextFormControlOptions.mask_validation);
-    this.readonly = this.getOptionItem(CustomLabelTextFormControlOptions.readonly);
-    this.capitalized = this.getOptionItem(CustomLabelTextFormControlOptions.capitalized);
+    this.mask = this.getOptionItem(RSLabelTextFormControlOptions.mask) ?? '';
+    this.minlength = this.getOptionItem(RSLabelTextFormControlOptions.minlength) ?? 0;
+    this.maxlength = this.getOptionItem(RSLabelTextFormControlOptions.maxlength) ?? 0;
+    this.placeholder = this.getOptionItem(RSLabelTextFormControlOptions.placeholder) ?? '';
+    this.mask_validation = this.getOptionItem(RSLabelTextFormControlOptions.mask_validation) ?? false;
+    this.readonly = this.getOptionItem(RSLabelTextFormControlOptions.readonly) ?? false;
+    this.capitalized = this.getOptionItem(RSLabelTextFormControlOptions.capitalized) ?? false;
   }
 
   private _setValidators() {
     this.validators = this.getCustomValidators();
     if(this.isRequired) this.validators.push(Validators.required);
-    if(!!this.maxlength) this.validators.push(Validators.maxLength(this.maxlength));
-    if(!!this.minlength) this.validators.push(Validators.minLength(this.minlength));
+    if(this.maxlength) this.validators.push(Validators.maxLength(this.maxlength));
+    if(this.minlength) this.validators.push(Validators.minLength(this.minlength));
 
     this.clearValidators();
     this.setValidators(Validators.compose(this.validators));

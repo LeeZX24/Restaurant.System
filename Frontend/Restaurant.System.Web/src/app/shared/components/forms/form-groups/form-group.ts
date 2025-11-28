@@ -4,12 +4,12 @@ import { CustomFormArrayBase, CustomFormElementType } from './../base/form-contr
 import { FormGroup, ValidatorFn } from "@angular/forms";
 
 export class CustomFormGroup extends FormGroup {
-  public override controls: { [key: string]: CustomFormElementType } = {};
-  constructor(controls?: {
-      [key: string]: CustomFormElementType;
-  }, validatorOrOpts?: ValidatorFn[] | null) {
+  public override controls: Record<string,CustomFormElementType> = {};
+  constructor(
+    controls?: Record<string,CustomFormElementType>,
+    validatorOrOpts?: ValidatorFn[] | null) {
       super({});
-      if (!!controls) {
+      if (controls) {
           Object.keys(controls).map(k => {
               const elem = controls[k];
               this.addControl(k, elem);
@@ -23,7 +23,7 @@ export class CustomFormGroup extends FormGroup {
   }
 
   //Form Control
-  get customFormControlsDict(): { [key: string]: CustomFormControl } {
+  get customFormControlsDict(): Record<string, CustomFormControl> {
       return this.controlsDict.ofKeys<CustomFormControl>(this.controlsDict.keys.filter(k => this.controls[k] instanceof CustomFormControl));
   }
 
@@ -31,7 +31,7 @@ export class CustomFormGroup extends FormGroup {
       return this.controlsDict.values.filter(x => x instanceof CustomFormControl).map(x => x as CustomFormControl);
   }
   //Form Array
-  get customFormArraysDict(): { [key: string]: CustomFormArrayBase } {
+  get customFormArraysDict(): Record<string, CustomFormArrayBase> {
       return this.controlsDict.ofKeys<CustomFormArrayBase>(this.controlsDict.keys.filter(k => this.controls[k] instanceof CustomFormArrayBase));
   }
 
@@ -39,7 +39,7 @@ export class CustomFormGroup extends FormGroup {
       return this.controlsDict.values.filter(x => x instanceof CustomFormArrayBase).map(x => x as CustomFormArrayBase);
   }
   //Form Group
-  get customFormGroupsDict(): { [key: string]: CustomFormGroup } {
+  get customFormGroupsDict(): Record<string, CustomFormGroup> {
       return this.controlsDict.ofKeys<CustomFormGroup>(this.controlsDict.keys.filter(x => this.controls[x] instanceof CustomFormGroup));
   }
 
@@ -51,8 +51,8 @@ export class CustomFormGroup extends FormGroup {
       return this.controlsDict.values.some(x => x.invalid);
   }
 
-  public _addControl<T extends CustomFormElementType>(name: string, control: T, disabled: boolean = false): void {
-      (<any>control)['__fg'] = this;
+  public _addControl<T extends CustomFormElementType>(name: string, control: T, disabled = false): void {
+      (control as T & { __fg?: CustomFormElementType})['__fg'] = this;
       if (disabled)
           control.disable();
       super.addControl(name, control);

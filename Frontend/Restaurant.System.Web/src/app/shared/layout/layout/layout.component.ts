@@ -4,7 +4,7 @@ import { RouterService } from '../../router.service';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'rs-layout',
   imports: [RouterOutlet],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',

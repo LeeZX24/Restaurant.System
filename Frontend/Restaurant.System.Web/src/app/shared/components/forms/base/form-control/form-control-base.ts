@@ -2,9 +2,9 @@ import { FormControl, ValidatorFn, Validators } from "@angular/forms";
 import { CustomFormGroup } from "../../form-groups/form-group";
 
 export abstract class CustomFormControlBase extends FormControl {
-protected __fg!: CustomFormGroup;
-  protected _label: string = '';
-  protected _visible: boolean = true;
+  protected __fg!: CustomFormGroup;
+  protected _label = '';
+  protected _visible = true;
   protected _forceMaxLen!: number;
   protected _forcePattern!: string;
   protected _required!: boolean;

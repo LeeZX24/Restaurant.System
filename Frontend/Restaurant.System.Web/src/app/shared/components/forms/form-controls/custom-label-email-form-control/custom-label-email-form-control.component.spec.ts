@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomLabelEmailFormControlComponent } from './custom-label-email-form-control.component';
+import { RSLabelEmailFormControlComponent } from './custom-label-email-form-control.component';
 
-describe('CustomLabelEmailFormControlComponent', () => {
-  let component: CustomLabelEmailFormControlComponent;
-  let fixture: ComponentFixture<CustomLabelEmailFormControlComponent>;
+describe('RSLabelEmailFormControlComponent', () => {
+  let component: RSLabelEmailFormControlComponent;
+  let fixture: ComponentFixture<RSLabelEmailFormControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomLabelEmailFormControlComponent]
+      imports: [RSLabelEmailFormControlComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomLabelEmailFormControlComponent);
+    fixture = TestBed.createComponent(RSLabelEmailFormControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

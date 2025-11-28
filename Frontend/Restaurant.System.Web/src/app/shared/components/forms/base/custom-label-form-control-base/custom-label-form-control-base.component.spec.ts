@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomLabelFormControlBaseComponent } from './custom-label-form-control-base.component';
+import { RSLabelFormControlBaseComponent } from './custom-label-form-control-base.component';
 
-describe('CustomLabelFormControlBaseComponent', () => {
-  let component: CustomLabelFormControlBaseComponent;
-  let fixture: ComponentFixture<CustomLabelFormControlBaseComponent>;
+describe('RSLabelFormControlBaseComponent', () => {
+  let component: RSLabelFormControlBaseComponent;
+  let fixture: ComponentFixture<RSLabelFormControlBaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomLabelFormControlBaseComponent]
+      imports: [RSLabelFormControlBaseComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomLabelFormControlBaseComponent);
+    fixture = TestBed.createComponent(RSLabelFormControlBaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

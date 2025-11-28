@@ -1,18 +1,21 @@
 import { Component, inject, Input, PLATFORM_ID } from '@angular/core';
-import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../shared.module';
-import { NgClass, isPlatformBrowser } from '@angular/common';
-import { CustomLabelFormControlBase } from './custom-label-form-control-base';
+import { CommonModule, NgClass, isPlatformBrowser } from '@angular/common';
+import { RSLabelFormControlBase } from './custom-label-form-control-base';
+import { ErrorConverterPipe } from '../../../../pipes/error-converter-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'custom-label-form-control-base',
-  imports: [...SHARED_IMPORTS, ...SHARED_EXPORTS, NgClass],
+  selector: 'rs-label-form-control-base',
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgClass, ErrorConverterPipe],
   templateUrl: './custom-label-form-control-base.component.html',
   styleUrl: './custom-label-form-control-base.component.css'
 })
-export class CustomLabelFormControlBaseComponent {
+export class RSLabelFormControlBaseComponent {
   @Input() labelSize!: string;
   @Input() inputSize!: string;
-  @Input() fc!: CustomLabelFormControlBase;
+  @Input() fc!: RSLabelFormControlBase;
+
+  inputId = `input-${Math.random().toString(36).substring(2, 8)}`;
 
   isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 }

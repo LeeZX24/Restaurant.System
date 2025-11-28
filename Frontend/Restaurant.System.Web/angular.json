@@ -58,15 +58,20 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json",
+            "host": "0.0.0.0",
+            "allowedHosts": [
+              ".gitpod.dev",
+              ".gitpod.io"
+            ]
+          },
           "configurations": {
             "production": {
               "buildTarget": "Restaurant.System.Web:build:production"
             },
             "development": {
               "buildTarget": "Restaurant.System.Web:build:development"
-            },
-            "options": {
-              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

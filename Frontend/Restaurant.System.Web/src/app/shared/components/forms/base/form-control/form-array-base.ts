@@ -10,6 +10,8 @@ export abstract class CustomFormArrayBase extends FormArray {
     controls?.forEach(x => {
       this.push(x);
     });
+
+    this.setValidators(validator ?? null);
   }
 
   get customControls(): CustomFormElementType[] {

@@ -1,6 +1,6 @@
 export class Dictionary<T> {
-    private readonly _dict: { [key: string]: T } = {};
-    constructor(values: { [key: string]: T }) {
+    private readonly _dict: Record<string, T> = {};
+    constructor(values: Record<string, T>) {
         Object.keys(values).map(k => {
             this.push(k, values[k]);
         });
@@ -8,9 +8,9 @@ export class Dictionary<T> {
     get(key: string): T {
         return this._dict[key];
     }
-    ofKeys<T>(keys: string[]): { [key: string]: T } {
-        const res: any = {};
-        this.keys.filter(k => keys.includes(k)).map(k => res[k] = this._dict[k]);
+    ofKeys<T>(keys: string[]): Record<string, T> {
+        const res: Record<string, T> = {};
+        this.keys.filter(k => keys.includes(k)).forEach(k => res[k] = this._dict[k] as unknown as T);
         return res;
     }
     get keys(): string[] {

@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'dynamic-form',
+  selector: 'rs-dynamic-form',
   imports: [],
   templateUrl: './dynamic-form.component.html',
   styleUrl: './dynamic-form.component.css',

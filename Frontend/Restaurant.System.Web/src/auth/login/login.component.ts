@@ -1,22 +1,21 @@
 import { Component, inject } from '@angular/core';
-import { Validators, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../app/core/services/auth.service/auth.service';
 import { UserDto } from '../../app/shared/models/dtos/user.dto';
-import { CommonModule } from '@angular/common';
-import { CustomLabelEmailFormControlComponent } from "../../app/shared/components/forms/form-controls/custom-label-email-form-control/custom-label-email-form-control.component";
-import { CustomLabelTextFormControl } from '../../app/shared/components/forms/form-controls/custom-label-text-form-control/custom-label-text-form-control';
+import { RSLabelTextFormControl } from '../../app/shared/components/forms/form-controls/custom-label-text-form-control/custom-label-text-form-control';
 import { CustomFormGroup } from '../../app/shared/components/forms/form-groups/form-group';
-import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../app/shared/shared.module';
+import { SHARED_AUTH_FORM_CONTROLS, SHARED_FORM_MODULE, SHARED_IMPORTS } from '../../app/shared/shared.module';
 import { provideNgxMask } from 'ngx-mask';
 
 @Component({
-  selector: 'app-login',
+  selector: 'rs-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   standalone: true,
   imports: [
     ...SHARED_IMPORTS,
-    CustomLabelEmailFormControlComponent,
+    ...SHARED_FORM_MODULE,
+    ...SHARED_AUTH_FORM_CONTROLS
   ],
   providers: [
     provideNgxMask(),
@@ -28,14 +27,16 @@ export class LoginComponent {
 
 
   createForm(): CustomFormGroup {
-    let fg = new CustomFormGroup();
+    const fg = new CustomFormGroup();
 
-    fg.addControl('email', new CustomLabelTextFormControl('Email', { required: true,}, ''));
-    fg.addControl('password', new FormControl('',{validators: [Validators.required], nonNullable: true},));
+    fg.addControl('email', new RSLabelTextFormControl('Email', { required: true,}, ''));
+    fg.addControl('password', new RSLabelTextFormControl('Password', { required: true,}, ''));
+    // fg.addControl('password', new FormControl('',{validators: [Validators.required], nonNullable: true},));
     return fg;
   }
 
-  get emailFC() { return <CustomLabelTextFormControl>this.getFormControl('email'); }
+  get emailFC() { return this.getFormControl('email') as RSLabelTextFormControl; }
+  get passwordFC() { return this.getFormControl('password') as RSLabelTextFormControl; }
 
   getFormControl(name: string) {
     return this.loginForm.get(name);

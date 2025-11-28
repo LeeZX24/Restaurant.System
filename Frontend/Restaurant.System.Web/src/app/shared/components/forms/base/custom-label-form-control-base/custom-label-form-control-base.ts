@@ -1,22 +1,22 @@
-import { ControlValueAccessor, FormControl, FormGroup, ValidatorFn } from "@angular/forms";
+import { FormControl, FormControlOptions, FormGroup, ValidatorFn } from "@angular/forms";
 
-export class CustomLabelFormControlBaseOptions {
+export type RSFormValidators = ValidatorFn | ValidatorFn[] | FormControlOptions | null;
+
+export class RSLabelFormControlBaseOptions {
   static readonly customValidationErrors = 'customValidationErrors';
   static readonly required = 'required';
   static readonly elementCssClass = 'elementCssClass';
 }
 
-export interface CustomLabelFormControlBaseOption {
-  [key: string]: any;
-  customValidationErrors?: { [key: string]: string },
+export interface RSLabelFormControlBaseOption {
+  customValidationErrors?: Record<string,string>,
   required?: boolean,
   elementCssClass?: string
 }
 
-export abstract class CustomLabelFormControlBase extends FormControl {
-  [key: string ]: any ;
+export abstract class RSLabelFormControlBase extends FormControl {
   label!: string;
-  options!: CustomLabelFormControlBaseOption;
+  options!: RSLabelFormControlBaseOption;
 
   protected validators: ValidatorFn[] = [];
   protected customValidators: ValidatorFn[] = [];
@@ -25,9 +25,9 @@ export abstract class CustomLabelFormControlBase extends FormControl {
 
   constructor(
     label: string,
-    options: CustomLabelFormControlBaseOption,
-    value: any,
-    validators: any,
+    options: RSLabelFormControlBaseOption,
+    value: unknown,
+    validators: RSFormValidators,
   ) {
     super(value, validators);
 
@@ -35,12 +35,13 @@ export abstract class CustomLabelFormControlBase extends FormControl {
     this.options = options;
   }
 
-  writeValue(value: any): void {
+  writeValue<T>(value: T): void {
     this.setValue(value);
   }
 
   setDisabledState(disabled: boolean) {
-    disabled ? this.disable() : this.enable;
+    if(disabled) this.disable()
+    else this.enable();
   }
 
   // Flag to show errors
@@ -50,7 +51,7 @@ export abstract class CustomLabelFormControlBase extends FormControl {
 
   getValidationMessages(): string[] {
     const messages: string[] = [];
-    if (!!this.errors) {
+    if (this.errors) {
       for (const errorKey in this.errors) {
         switch (errorKey) {
           case 'required':
@@ -97,11 +98,11 @@ export abstract class CustomLabelFormControlBase extends FormControl {
 
   // Optional: disabled-required error
   get isDisabledRequiredError(): boolean {
-    if(!this['__fg'])
+    if(!this.parent)
       return false;
 
     const ctrlProps: boolean = this.touched && this.isRequired && this.disabled && this.value == null;
-    const formEnabled: boolean = !this['__fg'].disabled;
+    const formEnabled = !this.parent.disabled;
     return ctrlProps && formEnabled;
   }
 
@@ -110,33 +111,32 @@ export abstract class CustomLabelFormControlBase extends FormControl {
   }
 
   private _addValidationMessage(key: string, autoValidationMessage: string, messages: string[]) {
-      if (this._getCustomValidationMessage(key))
-          messages.push(this._getCustomValidationMessage(key));
-      else
-          messages.push(autoValidationMessage);
+    const msg = this._getCustomValidationMessage(key);
+    if (msg)
+        messages.push(msg);
+    else
+        messages.push(autoValidationMessage);
   }
 
   private _getCustomValidationMessage(validationName: string) {
-  const customValidationErrors = this.getOptionItem(CustomLabelFormControlBaseOptions.customValidationErrors);
-  if (customValidationErrors && customValidationErrors[validationName])
-      return customValidationErrors[validationName];
-
-  return null;
+    const customValidationErrors = this.getOptionItem<Record<string,string>>(RSLabelFormControlBaseOptions.customValidationErrors);
+    return customValidationErrors?.[validationName] ?? null;
   }
 
-  getOptionItem(key:string) {
-    if(this.options[key] !== null && this.options[key] !== undefined)
-      return this.options[key];
+  getOptionItem<T = unknown>(key:string): T | null {
+    const optList = this.options as Record<string, unknown>;
+    if(optList[key] !== null && optList[key] !== undefined)
+      return optList[key] as T;
 
     return null;
   }
 
   get isRequired(): boolean {
-      return !!this.getOptionItem(CustomLabelFormControlBaseOptions.required);
+      return !!this.getOptionItem(RSLabelFormControlBaseOptions.required);
   }
 
   get elementCssClass() {
-    let cssClasses = this.getOptionItem(CustomLabelFormControlBaseOptions.elementCssClass);
+    let cssClasses = this.getOptionItem(RSLabelFormControlBaseOptions.elementCssClass) as string;
 
       if (!cssClasses)
           cssClasses = '';
@@ -148,18 +148,19 @@ export abstract class CustomLabelFormControlBase extends FormControl {
       return cssClasses;
   }
 
-  setOptionItem(key: string, value: unknown, appendValue: boolean = false) {
-    if (!this.options)
-      this.options = {};
+  setOptionItem(key: string, value: unknown, appendValue = false) {
+    let optList = this.options as Record<string, unknown>;
+    if (!optList)
+      optList = {};
 
     if (!appendValue)
-        this.options[key] = value;
+        optList[key] = value;
     else {
-      const currentValue = this.options[key];
+      const currentValue = optList[key];
       if (currentValue)
-        this.options[key] = currentValue + ' ' + value;
+        optList[key] = currentValue + ' ' + value;
       else
-        this.options[key] = value;
+        optList[key] = value;
     }
 
     this.refresh();
@@ -174,33 +175,33 @@ export abstract class CustomLabelFormControlBase extends FormControl {
     return Object.assign([], this.customValidators);
   }
 
-  protected getDataItems(titleField: any, valueField: any, errorMessage: any, dataField: any, compositeTitle: (x: any) => string) {
-    if ((!titleField && !compositeTitle) || !valueField)
-        throw (errorMessage);
+  // protected getDataItems<T>(titleField: T, valueField: T, errorMessage: T, dataField: T, compositeTitle: (x: T) => string) {
+  //   if ((!titleField && !compositeTitle) || !valueField)
+  //       throw (errorMessage);
 
-    const data: any[] = this.getOptionItem(dataField);
+  //   const data: T[] = this.getOptionItem(dataField);
 
-    if (!data)
-      return null;
+  //   if (!data)
+  //     return null;
 
-    return data.map(x => ({
-      value: x[valueField],
-      title: compositeTitle ? compositeTitle(x) : x[titleField]
-    }));
-  }
+  //   return data.map(x => ({
+  //     value: x[valueField],
+  //     title: compositeTitle ? compositeTitle(x) : x[titleField]
+  //   }));
+  // }
 
-  formatMinValue(value: any) {
+  formatMinValue<T>(value: T) {
     return value;
   }
 
-  formatMaxValue(value: any) {
+  formatMaxValue<T>(value: T) {
     return value;
   }
 
   protected updValsAndValidities(): void {
         this.updateValueAndValidity();
-        const formGroup = this['__fg'] as FormGroup;
-        if (!!formGroup) {
+        const formGroup = this.parent as FormGroup;
+        if (formGroup) {
             formGroup.updateValueAndValidity();
         }
     }
