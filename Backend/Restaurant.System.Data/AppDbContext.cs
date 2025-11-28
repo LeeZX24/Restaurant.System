@@ -40,6 +40,7 @@ namespace Restaurant.System.Data
                 .HasOne(c => c.MemberDetails)
                 .WithOne(m => m.Customer)
                 .HasForeignKey<Member>(m => m.CustomerId)
+                .HasPrincipalKey<Customer>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);  // <--- IMPORTANT
                  
             builder.Entity<Staff>()

@@ -15,17 +15,20 @@ namespace Restaurant.System.Services.Services
     public class AuthService : IAuthService
     {
         private readonly ICustomerService _customerService;
+        private readonly IMemberService _memberService;
         private readonly IStaffService _staffService;
         private readonly IConfiguration _configuration;
         private readonly IRepository<Member> _memberRepository;
 
         public AuthService(
             ICustomerService CustomerService,
+            IMemberService MemberService,
             IStaffService StaffService,
             IConfiguration Configuration,
             IRepository<Member> MemberRepository)
         {
             _customerService = CustomerService;
+            _memberService = MemberService;
             _staffService = StaffService;
             _configuration = Configuration;
             _memberRepository = MemberRepository;
@@ -36,20 +39,31 @@ namespace Restaurant.System.Services.Services
             var userDto = new UserDto();
             if(!string.IsNullOrEmpty(user.Email))
             {
-                var member = await _customerService.GetMemberAsync(user.Email);
+                var customer = await _customerService.GetCurrentCustomer("123");
+                if(customer != null)
+                {
+                    var member = await _memberService.GetMemberByCustomer(customer.CustomerId);
+
+                    Console.WriteLine(member);
+
                 if (member != null)
                 {
+                    Console.WriteLine("Member exist");
                     //Check Password
                     // var passwordValid = BCrypt.Net.BCrypt.Verify(user.Password, member.Password);
                     // if(passwordValid)
 
                     if(user.Password == member.Password)
                     {
+                        Console.WriteLine("Password Correct");
+
                         userDto.Email = user.Email;
                         userDto.Password = user.Password;
-                        userDto.Token = GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer");
+                        userDto.Token = GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer") ?? "1";
                     }
                     else return null;
+                }
+                else return null;
                 }
                 else return null;
             }
@@ -70,7 +84,7 @@ namespace Restaurant.System.Services.Services
                             var role = staff.Roles.FirstOrDefault();
                             userDto.UserName = user.UserName;
                             userDto.Password = user.Password;
-                            userDto.Token = GenerateJwtToken(staff.Id.ToString(), staff.UserName, role.RoleCode, role.RoleName);
+                            userDto.Token = GenerateJwtToken(staff.Id.ToString(), staff.UserName, role.RoleCode, role.RoleName) ?? "1";
                         }
                     }
                     else return null;
@@ -83,10 +97,10 @@ namespace Restaurant.System.Services.Services
 
         public async Task<UserDto> RegisterAsync(CustomerDto customer)
         {
-            // var cust = await _customerService.GetCurrentCustomer(customer.CurrentCustomerNumber);
-            // if(!cust.IsAnonymous) return null;
+            var cust = await _customerService.GetCurrentCustomer(customer.CurrentCustomerNumber);
+            if(!cust.IsAnonymous) return null;
 
-            var member = await _customerService.GetMemberAsync(customer.Email);
+            var member = await _memberService.GetMemberByCustomer(cust.CustomerId);
             if (member != null) return null;
 
             string Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);

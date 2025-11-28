@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-member',
+  selector: 'rs-member',
   imports: [],
   templateUrl: './member.html',
   styleUrl: './member.css',

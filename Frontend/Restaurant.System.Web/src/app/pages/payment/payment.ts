@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-payment',
+  selector: 'rs-payment',
   imports: [],
   templateUrl: './payment.html',
   styleUrl: './payment.css',

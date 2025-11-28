@@ -1,14 +1,48 @@
 import { Routes } from '@angular/router';
+import { LayoutComponent } from './shared/layout/layout/layout.component';
+import { LoginComponent } from '../auth/login/login.component';
+import { RegisterComponent } from '../auth/register/register.component';
 
 export const routes: Routes = [
+  // default route
+  // {
+  //   path: '',
+  //   component: LayoutComponent,
+  //   children: [
+  //     {
+  //       path: 'auth',
+  //       loadChildren: () => import('../auth/auth.routes').then(c => c.AuthRoutes),
+  //     },
+  //   ],
+  // },
   {
     path: 'login',
-    loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent),
+    component: LayoutComponent,
+    children:[
+      {
+        path: '',
+        component: LoginComponent
+      }
+    ]
   },
   {
     path: 'register',
-    loadComponent: () => import('./auth/register/register.component').then(c => c.RegisterComponent),
+    component: LayoutComponent,
+    children:[
+      {
+        path: '',
+        component: RegisterComponent
+      }
+    ]
   },
-  // default route
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        redirectTo: '/login',
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];
