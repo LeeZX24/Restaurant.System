@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:Restaurant.System.Web": "node dist/Restaurant.System.Web/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build:tailwind": "node build-tailwind.js"
   },
   "prettier": {
     "printWidth": 100,
@@ -35,15 +36,12 @@
     "@angular/platform-server": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@angular/ssr": "^20.3.10",
-    "@tailwindcss/postcss": "^4.1.17",
     "bootstrap": "^5.3.8",
     "express": "^5.1.0",
     "moment": "^2.30.1",
     "ngx-mask": "^20.0.3",
     "ngx-toastr": "^19.1.0",
-    "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
-    "tailwindcss": "^4.1.17",
     "tslib": "^2.3.0",
     "uuid": "^13.0.0"
   },
@@ -52,13 +50,17 @@
     "@angular/build": "^20.3.10",
     "@angular/cli": "^20.3.10",
     "@angular/compiler-cli": "^20.3.0",
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "angular-eslint": "20.6.0",
+    "autoprefixer": "^10.4.22",
     "eslint": "^9.39.0",
     "jsdom": "^27.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.46.3",
     "vitest": "^3.2.4"

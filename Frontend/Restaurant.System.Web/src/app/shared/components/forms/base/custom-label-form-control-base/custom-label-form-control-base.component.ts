@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input, PLATFORM_ID } from '@angular/core';
 import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../shared.module';
-import { NgClass } from '@angular/common';
+import { NgClass, isPlatformBrowser } from '@angular/common';
 import { CustomLabelFormControlBase } from './custom-label-form-control-base';
 
 @Component({
@@ -13,4 +13,6 @@ export class CustomLabelFormControlBaseComponent {
   @Input() labelSize!: string;
   @Input() inputSize!: string;
   @Input() fc!: CustomLabelFormControlBase;
+
+  isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 }

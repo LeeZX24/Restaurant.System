@@ -3,17 +3,18 @@ import { NgClass } from '@angular/common';
 import { SHARED_EXPORTS, SHARED_IMPORTS } from '../../../../shared.module';
 import { CustomLabelTextFormControl } from '../custom-label-text-form-control/custom-label-text-form-control';
 import { CustomLabelFormControlBaseComponent } from '../../base/custom-label-form-control-base/custom-label-form-control-base.component';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'custom-label-email-form-control',
-  imports: [...SHARED_IMPORTS, ...SHARED_EXPORTS, NgClass, CustomLabelFormControlBaseComponent],
+  imports: [...SHARED_IMPORTS, ...SHARED_EXPORTS, NgClass, CustomLabelFormControlBaseComponent, NgxMaskDirective],
   templateUrl: './custom-label-email-form-control.component.html',
   styleUrl: './custom-label-email-form-control.component.css',
 })
 export class CustomLabelEmailFormControlComponent implements OnInit {
   @Input() fc!: CustomLabelTextFormControl;
-  @Input() labelSize: string = 'col-lg-4';
-  @Input() inputSize: string = 'col-lg-6';
+  @Input() labelSize: string = 'w-full md:basis-1/4';
+  @Input() inputSize: string = 'w-full md:basis-3/4';
 
   @ViewChild("input") private _input!: ElementRef;
 

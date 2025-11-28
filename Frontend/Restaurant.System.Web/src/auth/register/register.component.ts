@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { SHARED_IMPORTS } from '../../app/shared/shared.module';
 
 @Component({
   selector: 'app-register',
@@ -8,11 +8,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
   styleUrl: './register.component.css',
   standalone: true,
   imports:
-  [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+  [...SHARED_IMPORTS]
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);

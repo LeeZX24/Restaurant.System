@@ -16,7 +16,6 @@ import { provideNgxMask } from 'ngx-mask';
   standalone: true,
   imports: [
     ...SHARED_IMPORTS,
-    ...SHARED_EXPORTS,
     CustomLabelEmailFormControlComponent,
   ],
   providers: [

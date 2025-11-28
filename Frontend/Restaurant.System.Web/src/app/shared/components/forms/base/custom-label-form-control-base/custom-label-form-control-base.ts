@@ -14,6 +14,7 @@ export interface CustomLabelFormControlBaseOption {
 }
 
 export abstract class CustomLabelFormControlBase extends FormControl {
+  [key: string ]: any ;
   label!: string;
   options!: CustomLabelFormControlBaseOption;
 
@@ -96,11 +97,11 @@ export abstract class CustomLabelFormControlBase extends FormControl {
 
   // Optional: disabled-required error
   get isDisabledRequiredError(): boolean {
-    if(!this.parent)
+    if(!this['__fg'])
       return false;
 
     const ctrlProps: boolean = this.touched && this.isRequired && this.disabled && this.value == null;
-    const formEnabled: boolean = !this.parent.disabled;
+    const formEnabled: boolean = !this['__fg'].disabled;
     return ctrlProps && formEnabled;
   }
 
@@ -198,7 +199,7 @@ export abstract class CustomLabelFormControlBase extends FormControl {
 
   protected updValsAndValidities(): void {
         this.updateValueAndValidity();
-        const formGroup = this.parent as FormGroup;
+        const formGroup = this['__fg'] as FormGroup;
         if (!!formGroup) {
             formGroup.updateValueAndValidity();
         }

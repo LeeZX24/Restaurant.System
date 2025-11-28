@@ -1,12 +1,24 @@
-<div class="layout min-h-screen flex flex-col">
-  <header class="h-20 bg-gray-100 flex items-center justify-center"></header>
+<div class="flex flex-col md:flex-row justify-center item-center mb-4">
+  <header class="bg-gray-100 text-black dark:bg-gray-800 dark:text-white p-4 fixed top-0 left-0 w-full z-50">
+    Header
+  </header>
   <!-- <sidebar></sidebar> -->
 
-  <main class="flex-1 flex justify-center items-center bg-gray-50 px-4">
-    <div class="flex items-center justify-center bg-gray-100">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
+  <div class=" flex w-full bg-gray-50 dark:bg-gray-600 p-4 justify-center items-center min-h-screen">
+    <router-outlet></router-outlet>
+  </div>
 
-  <footer class="h-16 bg-gray-100 flex items-center justify-center"></footer>
+  <!-- <main>
+
+
+  </main> -->
+
+  <!-- <div class="bg-gray-50 dark:bg-gray-700 rounded p-8">
+
+    </div> -->
+
+  <footer  class="bg-gray-100 text-black dark:bg-gray-900 dark:text-white p-4 fixed bottom-0 left-0 w-full">
+    Footer
+  </footer>
 </div>
+
