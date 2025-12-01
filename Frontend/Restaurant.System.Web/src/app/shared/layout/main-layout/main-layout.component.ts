@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 @Component({
   selector: 'rs-layout',
   imports: [RouterOutlet],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css',
+  templateUrl: './main-layout.component.html',
+  styleUrl: './main-layout.component.css',
 })
 export class LayoutComponent implements OnInit {
 
