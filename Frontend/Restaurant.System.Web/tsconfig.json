@@ -14,8 +14,11 @@
     "importHelpers": true,
     "target": "ES2022",
     "paths": {
-      "restaurant-system-web-lib": [
-        "./dist/restaurant-system-web-lib"
+      "auth": [
+        "./dist/auth"
+      ],
+      "forms": [
+        "./dist/forms"
       ]
     },
     "module": "preserve",
@@ -40,10 +43,28 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./projects/restaurant-system-web-lib/tsconfig.lib.json"
+      "path": "./projects/tsconfig.lib.json"
     },
     {
-      "path": "./projects/restaurant-system-web-lib/tsconfig.spec.json"
+      "path": "./projects/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/projects/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/projects/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/auth/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/auth/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/forms/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/forms/tsconfig.spec.json"
     }
   ]
 }
