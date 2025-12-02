@@ -97,6 +97,114 @@
           }
         }
       }
+    },
+    "projects": {
+      "projectType": "library",
+      "root": "projects/projects",
+      "sourceRoot": "projects/projects/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/projects/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/projects/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/projects/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/projects/**/*.ts",
+              "projects/projects/**/*.html"
+            ],
+            "eslintConfig": "projects/projects/eslint.config.js"
+          }
+        }
+      }
+    },
+    "@libs/auth": {
+      "projectType": "library",
+      "root": "projects/libs/auth",
+      "sourceRoot": "projects/libs/auth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/auth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/auth/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/auth/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/auth/**/*.ts",
+              "projects/libs/auth/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/auth/eslint.config.js"
+          }
+        }
+      }
+    },
+    "@libs/forms": {
+      "projectType": "library",
+      "root": "projects/libs/forms",
+      "sourceRoot": "projects/libs/forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/forms/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/forms/**/*.ts",
+              "projects/libs/forms/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/forms/eslint.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {
