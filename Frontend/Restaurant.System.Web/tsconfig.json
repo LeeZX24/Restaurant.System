@@ -13,6 +13,11 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
+    "paths": {
+      "restaurant-system-web-lib": [
+        "./dist/restaurant-system-web-lib"
+      ]
+    },
     "module": "preserve",
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
@@ -33,6 +38,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/restaurant-system-web-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/restaurant-system-web-lib/tsconfig.spec.json"
     }
   ]
 }

@@ -1,6 +1,3 @@
-[submodule "Frontend/Restaurant.System.Web/projects/restaurant-system-web-lib/lib"]
-	path = Frontend/Restaurant.System.Web/projects/restaurant-system-web-lib/lib
-	url = https://github.com/LeeZX24/Restaurant.System.git
 [submodule "Frontend/Restaurant.System.Web/projects/ui-base"]
 	path = Frontend/Restaurant.System.Web/projects/ui-base
 	url = https://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@github.com/LeeZX24/UI.Base.git

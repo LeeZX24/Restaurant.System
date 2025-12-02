@@ -97,6 +97,42 @@
           }
         }
       }
+    },
+    "restaurant-system-web-lib": {
+      "projectType": "library",
+      "root": "projects/restaurant-system-web-lib",
+      "sourceRoot": "projects/restaurant-system-web-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/restaurant-system-web-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/restaurant-system-web-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/restaurant-system-web-lib/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/restaurant-system-web-lib/**/*.ts",
+              "projects/restaurant-system-web-lib/**/*.html"
+            ],
+            "eslintConfig": "projects/restaurant-system-web-lib/eslint.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {

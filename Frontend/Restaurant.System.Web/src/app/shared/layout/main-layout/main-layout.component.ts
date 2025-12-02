@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RouterService } from '../../router.service';
+import { RouterService } from '../../services/router.service';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 @Component({
