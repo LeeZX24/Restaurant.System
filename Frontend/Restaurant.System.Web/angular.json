@@ -121,16 +121,6 @@
           "options": {
             "tsConfig": "projects/tsconfig.spec.json"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/**/*.ts",
-              "projects/libs/**/*.html"
-            ],
-            "eslintConfig": "projects/eslint.config.js"
-          }
         }
       }
     },
@@ -157,16 +147,6 @@
           "options": {
             "tsConfig": "projects/libs/auth/tsconfig.spec.json"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/auth/**/*.ts",
-              "projects/libs/auth/**/*.html"
-            ],
-            "eslintConfig": "projects/libs/auth/eslint.config.js"
-          }
         }
       }
     },
@@ -192,16 +172,6 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/libs/forms/tsconfig.spec.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/forms/**/*.ts",
-              "projects/libs/forms/**/*.html"
-            ],
-            "eslintConfig": "projects/libs/forms/eslint.config.js"
           }
         }
       }
