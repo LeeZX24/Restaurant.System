@@ -30,7 +30,9 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "outputPath": "dist/Restaurant.System.Web",
+            "baseHref": "/restaurant-system/"
           },
           "configurations": {
             "production": {
