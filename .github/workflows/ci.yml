@@ -68,8 +68,17 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          submodules: recursive
-          token: ${{ secrets.PAT_TOKEN }}
+          submodules: false
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SUBMODULE_SSH_KEY }}
+      
+      - name: Update submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
 
       # Setup Node.js
       - uses: actions/setup-node@v6
