@@ -98,43 +98,7 @@
         }
       }
     },
-    "projects": {
-      "projectType": "library",
-      "root": "projects/projects",
-      "sourceRoot": "projects/projects/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/projects/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/projects/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/projects/tsconfig.spec.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/projects/**/*.ts",
-              "projects/projects/**/*.html"
-            ],
-            "eslintConfig": "projects/projects/eslint.config.js"
-          }
-        }
-      }
-    },
-    "@libs/auth": {
+    "auth": {
       "projectType": "library",
       "root": "projects/libs/auth",
       "sourceRoot": "projects/libs/auth/src",
@@ -170,7 +134,7 @@
         }
       }
     },
-    "@libs/forms": {
+    "forms": {
       "projectType": "library",
       "root": "projects/libs/forms",
       "sourceRoot": "projects/libs/forms/src",
@@ -202,6 +166,42 @@
               "projects/libs/forms/**/*.html"
             ],
             "eslintConfig": "projects/libs/forms/eslint.config.js"
+          }
+        }
+      }
+    },
+    "mat-forms": {
+      "projectType": "library",
+      "root": "projects/libs/mat-forms",
+      "sourceRoot": "projects/libs/mat-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/mat-forms/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/mat-forms/**/*.ts",
+              "projects/libs/mat-forms/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/mat-forms/eslint.config.js"
           }
         }
       }
