@@ -100,18 +100,18 @@
     },
     "projects": {
       "projectType": "library",
-      "root": "projects/projects",
-      "sourceRoot": "projects/projects/src",
+      "root": "projects",
+      "sourceRoot": "projects/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/projects/tsconfig.lib.prod.json"
+              "tsConfig": "projects/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/projects/tsconfig.lib.json"
+              "tsConfig": "projects/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -119,17 +119,17 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/projects/tsconfig.spec.json"
+            "tsConfig": "projects/tsconfig.spec.json"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/projects/**/*.ts",
-              "projects/projects/**/*.html"
+              "projects/**/*.ts",
+              "projects/**/*.html"
             ],
-            "eslintConfig": "projects/projects/eslint.config.js"
+            "eslintConfig": "projects/eslint.config.js"
           }
         }
       }
