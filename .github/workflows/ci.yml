@@ -29,10 +29,10 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       # Setup .NET 10 SDK
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
@@ -55,10 +55,12 @@ jobs:
     needs: backend
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          submodules: false
 
       # Setup Node.js
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
           node-version: '20'
 
@@ -68,13 +70,13 @@ jobs:
 
       # Run lint, tests, build
       - name: Lint Frontend
-        run: npm run lint
+        run: CI=true npm run lint
         working-directory: Frontend/Restaurant.System.Web
       - name: Test Frontend
-        run: npm run test -- --watch=false
+        run: CI=true npm run test -- --watch=false
         working-directory: Frontend/Restaurant.System.Web
       - name: Build Frontend
-        run: npm run build
+        run: CI=true npm run build
         working-directory: Frontend/Restaurant.System.Web
       
       # Deployment into Github Pages

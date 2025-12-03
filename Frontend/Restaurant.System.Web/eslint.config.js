@@ -3,9 +3,14 @@ const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 
+const isCI = (process.env.CI ?? '').toLowerCase() === 'true';
+
 module.exports = tseslint.config(
   {
-    files: ["**/*.ts"],
+    ignores: isCI ? ['projects/**'] : []
+  },
+  {
+    files: ['src/**/*.ts'],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -33,7 +38,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ["**/*.html"],
+    files: ['src/**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
