@@ -84,7 +84,7 @@ jobs:
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with: 
-          path: Frontend/Restaurant.System.Web
+          path: Frontend/Restaurant.System.Web/dist
       
   deploy-pages:
     environment: 
@@ -97,4 +97,4 @@ jobs:
     steps:
       - name: Deploy to Github Pages
         id: deployment
-        uses: deploy-pages@v4
+        uses: actions/deploy-pages@v4
