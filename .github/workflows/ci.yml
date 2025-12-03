@@ -55,6 +55,11 @@ jobs:
     needs: backend
 
     steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.UI_BASE_SSH_KEY }}
+
       - uses: actions/checkout@v6
         with:
           submodules: recursive
