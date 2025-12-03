@@ -3,12 +3,7 @@ const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 
-const isCI = (process.env.CI ?? '').toLowerCase() === 'true';
-
 module.exports = tseslint.config(
-  {
-    ignores: isCI ? ['projects/**'] : []
-  },
   {
     files: ['src/**/*.ts'],
     extends: [

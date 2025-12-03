@@ -92,9 +92,7 @@
           "options": {
             "lintFilePatterns": [
               "src/**/*.ts",
-              "src/**/*.html",
-              "projects/**/*.ts",
-              "projects/**/*.html"
+              "src/**/*.html"
             ]
           }
         }
@@ -123,10 +121,20 @@
           "options": {
             "tsConfig": "projects/tsconfig.spec.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/**/*.ts",
+              "projects/**/*.html"
+            ],
+            "eslintConfig": "projects/eslint.config.js"
+          }
         }
       }
     },
-    "@libs/auth": {
+    "auth": {
       "projectType": "library",
       "root": "projects/libs/auth",
       "sourceRoot": "projects/libs/auth/src",
@@ -149,10 +157,20 @@
           "options": {
             "tsConfig": "projects/libs/auth/tsconfig.spec.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/auth/**/*.ts",
+              "projects/libs/auth/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/auth/eslint.config.js"
+          }
         }
       }
     },
-    "@libs/forms": {
+    "forms": {
       "projectType": "library",
       "root": "projects/libs/forms",
       "sourceRoot": "projects/libs/forms/src",
@@ -174,6 +192,52 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/libs/forms/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/forms/**/*.ts",
+              "projects/libs/forms/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/forms/eslint.config.js"
+          }
+        }
+      }
+    },
+    "mat-forms": {
+      "projectType": "library",
+      "root": "projects/libs/mat-forms",
+      "sourceRoot": "projects/libs/mat-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/mat-forms/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/mat-forms/**/*.ts",
+              "projects/libs/mat-forms/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/mat-forms/eslint.config.js"
           }
         }
       }
