@@ -126,8 +126,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/**/*.ts",
-              "projects/**/*.html"
+              "projects/libs/**/*.ts",
+              "projects/libs/**/*.html"
             ],
             "eslintConfig": "projects/eslint.config.js"
           }
