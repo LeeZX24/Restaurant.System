@@ -32,7 +32,7 @@
               "entry": "src/server.ts"
             },
             "outputPath": "dist/Restaurant.System.Web",
-            "baseHref": "/Restaurant.System/"
+            "baseHref": "/Restaurant.System/Frontend/Restaurant.System.Web/"
           },
           "configurations": {
             "production": {
