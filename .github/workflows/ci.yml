@@ -86,7 +86,7 @@ jobs:
         run: CI=true npm run test -- --watch=false
         working-directory: Frontend/Restaurant.System.Web
       - name: Build Frontend
-        run: CI=true npm run build
+        run: CI=true npm run build:production
         working-directory: Frontend/Restaurant.System.Web
       
       # Deployment into Github Pages
@@ -94,9 +94,9 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with: 
-          path: Frontend/Restaurant.System.Web/dist
+          path: Frontend/Restaurant.System.Web/dist/Restaurant.System.Web/browser
       
   deploy-pages:
     environment: 
