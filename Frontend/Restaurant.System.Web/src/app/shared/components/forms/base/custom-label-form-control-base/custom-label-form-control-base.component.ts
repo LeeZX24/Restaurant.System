@@ -15,7 +15,5 @@ export class RSLabelFormControlBaseComponent {
   @Input() inputSize!: string;
   @Input() fc!: RSLabelFormControlBase;
 
-  inputId = `input-${Math.random().toString(36).substring(2, 8)}`;
-
   isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 }

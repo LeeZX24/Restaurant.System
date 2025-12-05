@@ -1,0 +1,31 @@
+@reference "tailwindcss";
+
+.btnLogin {
+ @apply flex;
+}
+
+.btnLogin.disabled {
+  @apply pointer-events-none;
+}
+
+.btnLogin.disabled:hover {
+  @apply cursor-not-allowed;
+}
+
+.btn {
+  @apply inline-block font-normal leading-5 text-center whitespace-nowrap align-middle select-none border border-transparent px-4 py-2 text-base rounded transition-all duration-200 ease-in-out;
+}
+
+.btnLabel {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.col-label {
+  @apply w-full lg:w-1/2 px-4;
+}
+
+.col-input {
+  @apply w-full lg:w-1/2 px-4;
+}

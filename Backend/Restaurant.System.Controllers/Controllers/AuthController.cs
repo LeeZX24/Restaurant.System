@@ -21,7 +21,6 @@ namespace Restaurant.System.Controllers.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login([FromBody] UserDto loginDto)
         {
-            Console.WriteLine(loginDto);
             var user = await _authService.LoginAsync(loginDto);
             if (user == null)
             return Unauthorized();

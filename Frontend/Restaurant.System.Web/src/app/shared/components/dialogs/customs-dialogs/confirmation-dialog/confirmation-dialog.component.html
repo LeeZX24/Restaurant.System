@@ -1,0 +1,12 @@
+<ng-template #header>
+  Confirmation
+</ng-template>
+
+<ng-template #footer>
+  <button>Yes</button>
+  <button>No</button>
+</ng-template>
+
+<rs-dialog-base [themeCssClass]="" [headerTemplate]="header" [footerTemplate]="footer" #dialogBase>
+  <ng-content></ng-content>
+</rs-dialog-base>

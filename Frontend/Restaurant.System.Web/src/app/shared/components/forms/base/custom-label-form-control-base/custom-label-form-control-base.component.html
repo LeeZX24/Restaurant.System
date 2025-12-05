@@ -1,5 +1,5 @@
 <div class="flex flex-wrap">
-  <label [attr.for]="inputId" class="block text-sm font-medium text-gray-700" [ngClass]="labelSize">
+  <label [attr.for]="fc.inputId" class="formLabel" [ngClass]="labelSize">
     {{ fc.label }}
   </label>
   <div [ngClass]="inputSize">
@@ -11,7 +11,7 @@
       }
 
       <div class="w-2 pt-1">
-        <span class="text-red-600" [class.invisible]="!fc.isRequired">*</span>
+        <span class="text-red-500" [class.invisible]="!fc.isRequired">*</span>
       </div>
 
       <div>
@@ -21,7 +21,7 @@
     </div>
 
     @if (fc.isErrorToShow) {
-      <ul class="text-red-600 list-none">
+      <ul class="text-red-600 pl-0 list-none">
         @for (error of fc.getValidationMessages(); track $index) {
           <li>{{ error | errorConverter }}</li>
         }
@@ -29,7 +29,7 @@
     }
 
     @if (fc.isDisabledRequiredError) {
-      <ul class="text-red-600 list-none">
+      <ul class="text-red-600 pl-0 list-none">
         <li>{{ fc.getDisableRequireMsg() | errorConverter }}</li>
       </ul>
     }

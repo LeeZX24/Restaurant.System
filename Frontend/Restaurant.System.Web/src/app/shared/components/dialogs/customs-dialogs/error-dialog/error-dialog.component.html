@@ -1,0 +1,11 @@
+<ng-template #header>
+  Error
+</ng-template>
+
+<ng-template #footer>
+  <button type="button" (click)="close()">Close</button>
+</ng-template>
+
+<rs-dialog-base [themeCssClass]="" [headerTemplate]="header" [footerTemplate]="footer" #dialogBase>
+  <ng-content></ng-content>
+</rs-dialog-base>

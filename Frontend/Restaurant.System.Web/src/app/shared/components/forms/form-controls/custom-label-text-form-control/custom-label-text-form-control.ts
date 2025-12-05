@@ -42,13 +42,13 @@ export class RSLabelTextFormControl extends RSLabelFormControlBase {
   }
 
   private _setOptions() {
-    this.mask = this.getOptionItem(RSLabelTextFormControlOptions.mask) ?? '';
-    this.minlength = this.getOptionItem(RSLabelTextFormControlOptions.minlength) ?? 0;
-    this.maxlength = this.getOptionItem(RSLabelTextFormControlOptions.maxlength) ?? 0;
-    this.placeholder = this.getOptionItem(RSLabelTextFormControlOptions.placeholder) ?? '';
-    this.mask_validation = this.getOptionItem(RSLabelTextFormControlOptions.mask_validation) ?? false;
-    this.readonly = this.getOptionItem(RSLabelTextFormControlOptions.readonly) ?? false;
-    this.capitalized = this.getOptionItem(RSLabelTextFormControlOptions.capitalized) ?? false;
+    this.mask = this.getOptionItem(RSLabelTextFormControlOptions.mask)!;
+    this.minlength = this.getOptionItem(RSLabelTextFormControlOptions.minlength)!;
+    this.maxlength = this.getOptionItem(RSLabelTextFormControlOptions.maxlength)!;
+    this.placeholder = this.getOptionItem(RSLabelTextFormControlOptions.placeholder) || '';
+    this.mask_validation = this.getOptionItem(RSLabelTextFormControlOptions.mask_validation)!;
+    this.readonly = this.getOptionItem(RSLabelTextFormControlOptions.readonly)!;
+    this.capitalized = this.getOptionItem(RSLabelTextFormControlOptions.capitalized)!;
   }
 
   private _setValidators() {

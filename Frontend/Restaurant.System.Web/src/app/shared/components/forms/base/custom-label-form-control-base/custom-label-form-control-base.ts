@@ -15,6 +15,7 @@ export interface RSLabelFormControlBaseOption {
 }
 
 export abstract class RSLabelFormControlBase extends FormControl {
+  inputId!: string;
   label!: string;
   options!: RSLabelFormControlBaseOption;
 
@@ -123,7 +124,7 @@ export abstract class RSLabelFormControlBase extends FormControl {
     return customValidationErrors?.[validationName] ?? null;
   }
 
-  getOptionItem<T = unknown>(key:string): T | null {
+  getOptionItem<T = undefined>(key:string): T | null {
     const optList = this.options as Record<string, unknown>;
     if(optList[key] !== null && optList[key] !== undefined)
       return optList[key] as T;

@@ -1,5 +1,7 @@
 <rs-label-form-control-base [fc]="fc" [labelSize]="labelSize" [inputSize]="inputSize">
-  <input class="" [formControl]="fc" [ngClass]="fc.elementCssClass" type="text"
+  <input [id]="fc.inputId"
+  class="formControl"
+  [formControl]="fc" [ngClass]="fc.elementCssClass" type="text"
     (input)="convertToUppercase($event)" [mask]="fc.mask" [validation]="fc.mask_validation"
     [maxlength]="fc.maxlength" [minlength]="fc.minlength" [placeholder]="fc.placeholder" [readonly]="fc.readonly" #input />
   <ng-container attach>
