@@ -11,7 +11,10 @@
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
-    "build:production": "ng build --configuration=production --base-href /Restaurant.System/"
+    "build:production": "ng build --configuration=production --base-href /Restaurant.System/",
+    "build:forms:ng": "ng build forms --watch=false",
+    "build:forms:tailwind": "npx @tailwindcss/cli -i projects/libs/forms/src/styles.css -o dist/forms/styles.css --minify",
+    "build:forms": "npm run build:forms:ng && npm run build:forms:tailwind"
   },
   "prettier": {
     "printWidth": 100,

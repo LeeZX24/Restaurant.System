@@ -1,18 +1,22 @@
 @reference "tailwindcss";
 
+.button {
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+}
+
 .btnLogin {
  @apply flex;
 }
 
-.btnLogin.disabled {
+.btnLogin:disabled {
   @apply pointer-events-none;
 }
 
-.btnLogin.disabled:hover {
+.btnLogin:disabled:hover {
   @apply cursor-not-allowed;
 }
 
-.btn {
+.button {
   @apply inline-block font-normal leading-5 text-center whitespace-nowrap align-middle select-none border border-transparent px-4 py-2 text-base rounded transition-all duration-200 ease-in-out;
 }
 

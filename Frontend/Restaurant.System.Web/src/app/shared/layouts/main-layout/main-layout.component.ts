@@ -1,5 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterService } from '../../services/router.service';
+import { Component } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
 
 @Component({

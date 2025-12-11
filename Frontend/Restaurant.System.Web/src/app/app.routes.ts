@@ -15,7 +15,7 @@ export const routes: Routes = [
             children: [
               {
                 path: 'redirect',
-                loadComponent: () => import('./shared/components/pages/redirect/redirect.component').then(c=> c.RedirectComponent),
+                loadComponent: () => import('./shared/components/redirect/redirect.component').then(c=> c.RedirectComponent),
               },
               {
                 path: 'login',

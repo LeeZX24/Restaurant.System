@@ -1,56 +1,36 @@
-<div class="w-[300px]">
-  <div class="mb-[100px] flex justify-center">
-    Login
+<div class="w-[300px] mx-auto">
+  <div class="mb-8 flex justify-center text-2xl font-semibold">
+    <span>Login</span>
   </div>
-  <div class="">
-    <form class="flex items-center border-b border-teal-50" [formGroup]="loginForm" (ngSubmit)="submit()">
+  <div class="space-y-4">
+    <form class="flex items-center border-b border-teal-50" [formGroup]="form">
       <div class="flex flex-wrap">
-        <div class="flex-1">
           <!-- <div class="w-full flex justify-center">
 
           </div> -->
-          <rs-label-email-form-control [fc]="emailFC" [labelSize]="'col-label'" [inputSize]="'col-input'"></rs-label-email-form-control>
-          <rs-label-password-form-control [fc]="passwordFC" [labelSize]="'col-label'" [inputSize]="'col-input'"></rs-label-password-form-control>
-          <!-- <div>
-            <label for="password" class="block mb-1 font-medium">Password</label>
-            <input id="password" type="password"
-                  formControlName="password"
-                  class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
-          </div> -->
+          <!-- <rs-label-email-form-control [fc]="emailFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="0"></rs-label-email-form-control>
+          <rs-label-password-form-control [fc]="passwordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="1"></rs-label-password-form-control> -->
+          <div class="w-full mb-1">
+              <rs-email-form-control [fc]="emailFC" tabindex="0"></rs-email-form-control>
+              <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
+          </div>
 
-          <div class="btn w-full btnLogin"
-            [class.disabled]="loginForm.invalid" (click)="submit()">
+          <div class="button w-full btnLogin"
+            [class.disabled]="form.invalid" (click)="form.invalid ? null : onSubmit()"
+            (keyup.enter)="onSubmit()" role="button" tabindex="2">
             <div class="btnLabel">
               <span>Login</span>
             </div>
-
           </div>
 
         </div>
-
-      </div>
-      <!-- <div>
-        <label for="email" class="block mb-1 font-medium">Email</label>
-        <input id="email" type="email"
-              formControlName="email"
-              class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
-      </div> -->
-
-
-
     </form>
 
-
-
     <div class="flex flex-col space-y-4 h-full">
-      <div class="w-1/4 basis-1/4">
-
-
-          <p class="text-center text-sm mt-4">
-            No account?
-            <a href="/register" class="text-blue-600 underline">Register</a>
-          </p>
-      </div>
+      <p class="text-center text-sm mt-4">
+        No account?
+        <a href="/register" class="text-blue-600 underline">Register</a>
+      </p>
     </div>
 
   </div>
