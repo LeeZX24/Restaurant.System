@@ -8,11 +8,11 @@
  @apply flex;
 }
 
-.btnLogin:disabled {
-  @apply pointer-events-none;
+.btnLogin.disabled {
+  @apply pointer-events-none bg-gray-500;
 }
 
-.btnLogin:disabled:hover {
+.btnLogin.disabled:hover {
   @apply cursor-not-allowed;
 }
 

@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { SubscriptionBase } from '../../../core/entities/subscription-base';
 import { BaseDto } from '../../models/dtos/base/base.dto';
@@ -15,23 +15,38 @@ export abstract class BaseComponent<TRequest extends BaseDto> extends Subscripti
   protected abstract submit(req: TRequest): void;
 
   onSubmit(): void {
-    if(!this.form) return;
+    if(!this.form.valid) return;
 
     if(this.onValidateForm()) {
       const req = this.getFormRequest() as TRequest;
       this.submit(req);
     } else {
-      this.markAllAsTouched();
+      this.showFormControlsValidationErrors();
     }
   }
 
   protected abstract onValidateForm(): boolean;
   protected abstract getFormRequest(): BaseDto;
 
-  private markAllAsTouched() {
-    Object.values(this.form.controls).forEach(control => {
-      control.markAsTouched();
-    });
+  showFormControlsValidationErrors(): void {
+    this._setFormControlsTouched(this.form.controls);
+  }
+
+  private _setFormControlsTouched(controls: { [key: string]: AbstractControl }): void {
+    for (const key in controls) {
+      if(Object.prototype.hasOwnProperty.call(controls, key)) {
+        const control = controls[key];
+
+        if(control instanceof FormControl)
+          control.markAsTouched();
+
+        if(control instanceof FormGroup)
+          this._setFormControlsTouched(control.controls);
+
+        if(control instanceof FormArray)
+          control.controls.forEach(c => this._setFormControlsTouched({ [key]: c }));
+      }
+    }
   }
 
   ngOnDestroy(): void {

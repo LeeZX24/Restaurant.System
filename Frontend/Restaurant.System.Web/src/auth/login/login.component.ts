@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserDto } from '../../app/shared/models/dtos/user.dto';
 import { provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@rs/forms';
 import { BaseAuthComponent } from '../../app/shared/components/base-auth-component/base-auth-component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'rs-login',
@@ -20,9 +21,12 @@ import { BaseAuthComponent } from '../../app/shared/components/base-auth-compone
   ],
   providers: [
     provideNgxMask(),
+    provideTranslateService()
   ]
 })
 export class LoginComponent extends BaseAuthComponent<UserDto> {
+  private translateService = inject(TranslateService);
+
   _request!: UserDto;
   get request(): UserDto { return this._request; }
   set request(value: UserDto) { this._request = value; }
@@ -30,8 +34,8 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
-    fg.addCustomFormControl('email', new RSTextFormControl({ required: true,}, ''));
-    fg.addCustomFormControl('password', new RSTextFormControl({ required: true,}, ''));
+    fg._addCustomControl('email', new RSTextFormControl({ required: true,}, '', [ Validators.required, Validators.email ]));
+    fg._addCustomControl('password', new RSTextFormControl({ required: true,}, '', [ Validators.required ]));
     return fg;
   }
 
@@ -51,8 +55,11 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
   }
 
   onValidateForm(): boolean {
+    if(this.form.valid) {
+      return true;
+    }
 
-    console.log('validation');
+    this.showFormControlsValidationErrors();
     return false;
   }
 }

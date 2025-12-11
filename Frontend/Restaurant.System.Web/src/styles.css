@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
 
-@source "../node_modules/@rs/forms/styles.css";
+@import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
+@import '../dist/forms/styles.css';
+
+/* @custom-variant dark (&:where(.dark, .dark *));
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+html,
+body {
+  font-family: 'Titillium Web', sans-serif;
+}

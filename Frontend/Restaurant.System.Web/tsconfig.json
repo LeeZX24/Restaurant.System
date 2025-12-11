@@ -16,6 +16,9 @@
     "paths": {
       "auth": [
         "./dist/auth"
+      ],
+      "@rs/forms": [
+        "./dist/forms"
       ]
     },
     "module": "preserve",

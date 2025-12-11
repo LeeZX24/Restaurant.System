@@ -23,7 +23,7 @@ namespace Restaurant.System.Controllers.Controllers
         {
             var user = await _authService.LoginAsync(loginDto);
             if (user == null)
-            return Unauthorized();
+            return NotFound();
             
 
             return Ok(user);
