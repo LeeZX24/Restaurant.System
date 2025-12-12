@@ -15,10 +15,10 @@
               <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
           </div>
 
-          <div class="button w-full btnLogin"
+          <div class="w-full btn-login"
             [class.disabled]="form.invalid" (click)="form.invalid ? null : onSubmit()"
             (keyup.enter)="onSubmit()" role="button" tabindex="2">
-            <div class="btnLabel">
+            <div class="btn-label">
               <span>Login</span>
             </div>
           </div>
@@ -30,7 +30,7 @@
       <p class="text-center text-sm mt-4">
         No account?
         <!-- <a href="/register" class="text-blue-600 underline">Register</a> -->
-        <span (click)="redirectRegister()">Register</span>
+        <span class="link" (click)="redirectRegister()">Register</span>
       </p>
     </div>
 

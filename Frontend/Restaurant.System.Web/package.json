@@ -12,9 +12,7 @@
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
     "build:production": "ng build --configuration=production --base-href /Restaurant.System/",
-    "build:forms:ng": "ng build forms --watch=false",
-    "build:forms:tailwind": "npx @tailwindcss/cli -i projects/libs/forms/src/styles.css -o dist/forms/styles.css --content \"projects/libs/forms/src/lib/**/*.{ html, ts }\" --minify",
-    "build:forms": "npm run build:forms:ng && npm run build:forms:tailwind"
+    "build:forms": "ng build forms --watch=false"
   },
   "prettier": {
     "printWidth": 100,
@@ -33,7 +31,7 @@
     "@angular/cdk": "^21.0.3",
     "@angular/common": "^21.0.4",
     "@angular/compiler": "^21.0.4",
-    "@angular/core": "^21.0.4",
+    "@angular/core": "^21.0.5",
     "@angular/forms": "^21.0.4",
     "@angular/material": "^21.0.3",
     "@angular/platform-browser": "^21.0.4",
