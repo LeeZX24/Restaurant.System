@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, Type } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, Type } from '@angular/core';
 import { DIALOG_VARIANT } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog-variant';
 import { CustomDialogConfig } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog.config';
 import { CustomDialogRef } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog.ref';
@@ -14,7 +14,7 @@ export class CustomDialogService {
   envInjector = inject(EnvironmentInjector);
   platformId = inject(PLATFORM_ID);
 
-  open<TComponent, R = unknown, D = unknown>(
+  open<TComponent extends object, R = unknown, D = unknown>(
     component: Type<TComponent>,
     config?: CustomDialogConfig<D>
   ): CustomDialogRef<R> {

@@ -14,4 +14,8 @@ export class CustomDialogConfig<T = unknown> {
 
   hasHeader? = true;
   hasFooter? = true;
+
+  isLoading? = false;
+  isSuccess? = false;
+  isFailed? = false;
 }

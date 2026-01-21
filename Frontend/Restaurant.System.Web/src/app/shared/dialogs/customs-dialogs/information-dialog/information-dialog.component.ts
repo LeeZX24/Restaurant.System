@@ -1,16 +1,16 @@
-import { Component, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DIALOG_VARIANT } from '../../base/custom-dialog-base/custom-dialog-variant';
 import { CustomDialogConfig } from '../../base/custom-dialog-base/custom-dialog.config';
 import { CustomDialogRef } from '../../base/custom-dialog-base/custom-dialog.ref';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'rs-information-dialog',
   templateUrl: './information-dialog.component.html',
   styleUrls: ['./information-dialog.component.css'],
-  imports: []
+  imports: [CommonModule]
 })
 export class InformationDialogComponent {
-
   dialogRef = inject(CustomDialogRef);
   data = inject(CustomDialogConfig).data;
   config = inject(CustomDialogConfig);
@@ -32,6 +32,12 @@ export class InformationDialogComponent {
     warning: 'bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded',
     confirmation: 'bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded'
   }[this.variant];
+
+  get loading(): boolean { return !!this.config?.isLoading; }
+  set loading(value: boolean) { this.config.isLoading = value; }
+
+  get success(): boolean { return !!this.config?.isSuccess; }
+  set success(value: boolean) { this.config.isSuccess = value; }
 
   close(result?: unknown) {
     this.dialogRef.close(result);

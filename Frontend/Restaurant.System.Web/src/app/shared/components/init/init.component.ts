@@ -1,12 +1,15 @@
 import { RouterService } from '../../services/router.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectorRef, OnInit } from '@angular/core';
 import { firstValueFrom, timeout } from 'rxjs';
 import { InformationDialogComponent } from '../../dialogs/customs-dialogs/information-dialog/information-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/customs-dialogs/error-dialog/error-dialog.component';
 import { CustomDialogService } from '../../../core/services/custom-dialog/custom-dialog.service';
 import { CustomDialogRef } from '../../dialogs/base/custom-dialog-base/custom-dialog.ref';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 @Component({
   selector: 'rs-init',
@@ -14,44 +17,35 @@ import { CustomDialogRef } from '../../dialogs/base/custom-dialog-base/custom-di
   imports: [CommonModule],
   styleUrls: ['./init.component.css']
 })
-export class InitComponent {
+export class InitComponent implements OnInit {
   private routerService = inject(RouterService);
   private httpClient = inject(HttpClient);
   private dialogService = inject(CustomDialogService);
 
-  loading = signal(true);
   error = signal(false);
 
   ngOnInit(): void {
-    let ref: CustomDialogRef<void>;
     setTimeout(() => {
-      ref = this.dialogService.open(InformationDialogComponent, {
+      const ref = this.dialogService.open(InformationDialogComponent, {
         data: { title: 'Information', message: 'Checking Backend ...'},
         hasHeader: true,
         hasFooter: false,
         closeOnBackdropClick: false,
-        disableClose: true
+        disableClose: true,
+        isLoading: true
       });
-      // this.infoDialogLoading = new InformationDialog('Information',{});
-      // this.infoDialogSuccess = new InformationDialog('Success',{});
-      // this.errorDialog = new ErrorDialog('Error', {});
 
-      // this.infoDialogLoading.open();
-      // console.log(this.infoDialogLoading.visible());
 
-      ref.afterOpened().subscribe(() => {
-        console.log('dialog opened. Now checking backend ...');
-        this.checkBackend(ref);
+        ref.afterOpened().subscribe(() => {
+          this.checkBackend(ref);
+        });
       });
-    }, 0);
-
 
   }
 
   async checkBackend(ref: CustomDialogRef<void>) {
     try {
       await firstValueFrom(this.httpClient.get('/api/ishealthy' , {responseType: 'text'}).pipe(timeout(60000)));
-      console.log('success');
       this.setState();
 
       this.openSuccessDialog();
@@ -66,7 +60,6 @@ export class InitComponent {
   }
 
   async setState(T?: unknown) {
-    this.loading.set(false);
     this.error.set(!!T);
   }
 
@@ -96,7 +89,8 @@ export class InitComponent {
       hasHeader: true,
       hasFooter: false,
       closeOnBackdropClick: false,
-      disableClose: true
+      disableClose: true,
+      isSuccess: true
     });
 
     successRef.afterOpened().subscribe(() => {
@@ -115,7 +109,8 @@ export class InitComponent {
       hasHeader: true,
       hasFooter: false,
       closeOnBackdropClick: false,
-      disableClose: true
+      disableClose: true,
+      isLoading: true
     });
 
     redirectRef.afterOpened().subscribe(() => {

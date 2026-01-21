@@ -28,6 +28,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
       hasFooter: false,
       disableClose: true,
       closeOnBackdropClick: false,
+      isLoading: true
     });
 
     dialogRef.afterOpened().subscribe(() => {
@@ -73,7 +74,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
       hasHeader: false,
       hasFooter: true,
       disableClose: true,
-      closeOnBackdropClick: false,
+      closeOnBackdropClick: false
     });
   }
 

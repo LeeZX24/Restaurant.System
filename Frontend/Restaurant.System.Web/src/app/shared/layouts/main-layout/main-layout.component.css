@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 .footer {
- @apply h-[30px];
+  @apply h-[30px];
 }
 
 .footer.footer {
@@ -9,5 +9,5 @@
 }
 
 .footer-content {
-  @apply flex -mx-2 items-center;
+  @apply flex justify-center items-center gap-2;
 }

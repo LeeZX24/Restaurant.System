@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, ElementRef, inject, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CustomDialogConfig } from './custom-dialog.config';
 import { DIALOG_VARIANT } from './custom-dialog-variant';
@@ -23,20 +23,22 @@ export class CustomDialogBaseComponent {
 
   private destroy$ = new Subject<void>();
 
+  private componentRef?: ComponentRef<unknown>;
+
   variantClass = {
-    info: 'border-l-4 border-blue-500 bg-blue-50',
-    error: 'border-l-4 border-red-600 bg-red-50',
-    success: 'border-l-4 border-green-600 bg-green-50',
-    warning: 'border-l-4 border-yellow-500 bg-yellow-50',
-    confirmation: 'border-l-4 border-purple-600 bg-purple-50',
+    info: 'border-2 border-blue-500 bg-blue-50',
+    error: 'border-2 border-red-600 bg-red-50',
+    success: 'border-2 border-green-600 bg-green-50',
+    warning: 'border-2 border-yellow-500 bg-yellow-50',
+    confirmation: 'border-2 border-purple-600 bg-purple-50',
   }[this.variant];
 
   ngOnInit() {
     this.focusOnOpen();
-    console.log('dialog');
   }
 
   ngOnDestroy() {
+    this.componentRef?.destroy();
     this.destroy$.next();
     this.destroy$.complete();
   }

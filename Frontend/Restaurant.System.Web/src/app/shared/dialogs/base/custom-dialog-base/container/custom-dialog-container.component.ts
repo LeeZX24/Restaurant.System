@@ -30,7 +30,6 @@ export class CustomDialogBaseComponent<T> {
 
   ngOnInit() {
     this.focusOnOpen();
-    console.log('dialog');
   }
 
   ngOnDestroy() {

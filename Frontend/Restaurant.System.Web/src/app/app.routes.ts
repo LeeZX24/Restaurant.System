@@ -3,11 +3,11 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./shared/layouts/main-layout/main-layout.component').then(c => c.MainLayoutComponent),
+    loadComponent: () => import('./shared/layouts/dialog-layout/dialog-layout.component').then(c => c.DialogLayoutComponent),
     children: [
       {
         path: '',
-        loadComponent: () => import('./shared/layouts/dialog-layout/dialog-layout.component').then(c => c.DialogLayoutComponent),
+        loadComponent: () => import('./shared/layouts/main-layout/main-layout.component').then(c => c.MainLayoutComponent),
         children: [
           {
             path: '',
