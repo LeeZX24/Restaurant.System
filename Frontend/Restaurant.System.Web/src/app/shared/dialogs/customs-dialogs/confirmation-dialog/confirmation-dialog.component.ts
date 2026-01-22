@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { DIALOG_VARIANT } from '../../base/custom-dialog-base/custom-dialog-variant';
-import { CustomDialogConfig } from '../../base/custom-dialog-base/custom-dialog.config';
-import { CustomDialogRef } from '../../base/custom-dialog-base/custom-dialog.ref';
+import { DIALOG_VARIANT } from '../../custom-dialog-base/custom-dialog-variant';
+import { CustomDialogConfig } from '../../custom-dialog-base/custom-dialog.config';
+import { CustomDialogRef } from '../../custom-dialog-base/custom-dialog.ref';
 
 @Component({
   selector: 'rs-confirmation-dialog',

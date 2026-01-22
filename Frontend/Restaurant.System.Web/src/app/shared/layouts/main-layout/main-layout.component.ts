@@ -8,10 +8,4 @@ import { RouterOutlet } from "@angular/router";
   styleUrl: './main-layout.component.css',
 })
 export class MainLayoutComponent {
-
-  //private routeService = inject(RouterService);
-
-  // ngOnInit(): void {
-  //   this.routeService.gotoLogin();
-  // }
 }

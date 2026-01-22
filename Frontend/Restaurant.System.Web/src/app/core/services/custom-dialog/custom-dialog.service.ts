@@ -1,8 +1,8 @@
 import { ApplicationRef, ChangeDetectorRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, Type } from '@angular/core';
-import { DIALOG_VARIANT } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog-variant';
-import { CustomDialogConfig } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog.config';
-import { CustomDialogRef } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog.ref';
-import { CustomDialogBaseComponent } from '../../../shared/dialogs/base/custom-dialog-base/custom-dialog-base.component';
+import { DIALOG_VARIANT } from '../../../shared/dialogs/custom-dialog-base/custom-dialog-variant';
+import { CustomDialogConfig } from '../../../shared/dialogs/custom-dialog-base/custom-dialog.config';
+import { CustomDialogRef } from '../../../shared/dialogs/custom-dialog-base/custom-dialog.ref';
+import { CustomDialogBaseComponent } from '../../../shared/dialogs/custom-dialog-base/custom-dialog-base.component';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
