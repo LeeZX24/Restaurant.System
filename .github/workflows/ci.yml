@@ -85,6 +85,11 @@ jobs:
       - run: npm ci
         working-directory: Frontend/Restaurant.System.Web
 
+      # Build submodule
+      - name: Build form submodule
+        run: CI=true npm run build:forms
+        working-directory: Frontend/Restaurant.System.Web
+
       # Run lint, tests, build
       - name: Lint Frontend
         run: CI=true npm run lint
