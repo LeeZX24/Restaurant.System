@@ -74,12 +74,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install Frontend dependencies
-      - run: CI=true npm ci
+      - name: DEBUG npm ci environment
+        run: |
+          pwd
+          ls -la
+          ls -la package-lock.json
         working-directory: Frontend/Restaurant.System.Web
 
-      - name: Build submodules
-        run: CI=true npm run build:forms
+      # Install Angular dependencies
+      - run: npm ci
         working-directory: Frontend/Restaurant.System.Web
 
       # Run lint, tests, build
