@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { AuthService } from '../../app/core/services/auth.service/auth.service';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserDto } from '../../app/shared/models/dtos/user.dto';
-import { RSLabelTextFormControl } from '../../app/shared/components/forms/form-controls/custom-label-text-form-control/custom-label-text-form-control';
-import { CustomFormGroup } from '../../app/shared/components/forms/form-groups/form-group';
-import { SHARED_AUTH_FORM_CONTROLS, SHARED_FORM_MODULE, SHARED_IMPORTS } from '../../app/shared/shared.module';
 import { provideNgxMask } from 'ngx-mask';
+import { CommonModule } from '@angular/common';
+import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@rs/forms';
+import { BaseAuthComponent } from '../../app/shared/components/base-auth-component/base-auth-component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'rs-login',
@@ -13,77 +13,53 @@ import { provideNgxMask } from 'ngx-mask';
   styleUrl: './login.component.css',
   standalone: true,
   imports: [
-    ...SHARED_IMPORTS,
-    ...SHARED_FORM_MODULE,
-    ...SHARED_AUTH_FORM_CONTROLS
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RSEmailFormControlComponent,
+    RSPasswordFormControlComponent
   ],
   providers: [
     provideNgxMask(),
+    provideTranslateService()
   ]
 })
-export class LoginComponent {
-  private authServ = inject(AuthService);
-  loginForm: FormGroup = this.createForm();
+export class LoginComponent extends BaseAuthComponent<UserDto> {
+  private translateService = inject(TranslateService);
 
+  _request!: UserDto;
+  get request(): UserDto { return this._request; }
+  set request(value: UserDto) { this._request = value; }
 
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
-    fg.addControl('email', new RSLabelTextFormControl('Email', { required: true,}, ''));
-    fg.addControl('password', new RSLabelTextFormControl('Password', { required: true,}, ''));
-    // fg.addControl('password', new FormControl('',{validators: [Validators.required], nonNullable: true},));
+    fg._addCustomControl('email', new RSTextFormControl({ required: true,}, '', [ Validators.required, Validators.email ]));
+    fg._addCustomControl('password', new RSTextFormControl({ required: true,}, '', [ Validators.required ]));
     return fg;
   }
 
-  get emailFC() { return this.getFormControl('email') as RSLabelTextFormControl; }
-  get passwordFC() { return this.getFormControl('password') as RSLabelTextFormControl; }
+  get emailFC() { return this.getFormControl('email') as RSTextFormControl; }
+  get passwordFC() { return this.getFormControl('password') as RSTextFormControl; }
 
   getFormControl(name: string) {
-    return this.loginForm.get(name);
+    return this.form.get(name);
   }
 
-  // form = this.fb.group({
-  //   email: ['', [Validators.required, Validators.email]],
-  //   passwordHash: ['', Validators.required]
-  // });
-
-  submit() {
-    if (this.loginForm.invalid) return;
+  getFormRequest(): UserDto {
     const req: UserDto =
     {
-      ...this.loginForm.getRawValue()
+      ...this.form.getRawValue()
     };
-    console.log('Login payload:', req);
-    this.authServ.login(req).subscribe({
-       next: (res) => this.handleLoginSuccess(res),
-    error: (err) => this.handleLoginError(err)
-    });
-    // Example:
-    // this.authService.login(this.form.value).subscribe(...)
+    return req;
   }
 
-  private handleLoginSuccess(res: UserDto) {
-
-    if(res != null) {
-
-      if(res.token) {
-        // 1. Save token (if backend returned it)
-        localStorage.setItem('token', res.token);
-
-        // 2. Tell the auth service the user is logged in
-        this.authServ.setCurrentUser(res);
-
-        console.log('Login Completed');
-      }
+  onValidateForm(): boolean {
+    if(this.form.valid) {
+      return true;
     }
-    // 3. Redirect
-    // this.router.navigate(['/']);
-  }
 
-  private handleLoginError(err: unknown) {
-  //   //this.errorMessage = err.error?.message ?? "Login failed";
-  //   const error = err.error?.message ?? "Login failed";
-  //   console.log(error);
-    console.log(err);
+    this.showFormControlsValidationErrors();
+    return false;
   }
 }

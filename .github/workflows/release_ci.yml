@@ -1,0 +1,121 @@
+name: Monorepo CI/CD - Release
+
+on:
+  push:
+    branches: [release]
+  pull_request:
+    branches: [release]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        env:
+          SA_PASSWORD: "Your_password123"
+          ACCEPT_EULA: "Y"
+        options: >-
+          --health-cmd "exit 0"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v6
+
+      # Setup .NET 10 SDK
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      # Restore, build, and test backend
+      - name: Restore .NET projects
+        run: dotnet restore Backend/Backend.sln
+
+      - name: Build .NET projects
+        run: dotnet build Backend/Backend.sln --no-restore --configuration Release
+
+      - name: Run backend tests
+        run: dotnet test Backend/Backend.sln --no-build --verbosity normal
+
+      # Optional: Build and test backend Docker image
+      # - name: Build backend Docker image
+      #   run: docker build -t backend:ci -f Dockerfile .
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: false
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SUBMODULE_SSH_KEY }}
+
+      - name: Update submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+
+      # Setup Node.js
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: DEBUG npm ci environment
+        run: |
+          pwd
+          ls -la
+          ls -la package-lock.json
+        working-directory: Frontend/Restaurant.System.Web
+
+      # Install Angular dependencies
+      - run: npm ci
+        working-directory: Frontend/Restaurant.System.Web
+
+      - name: Build form submodule
+        run: CI=true npm run build:forms
+        working-directory: Frontend/Restaurant.System.Web
+
+      - name: Build Frontend
+        run: CI=true npm run build:production
+        working-directory: Frontend/Restaurant.System.Web
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      # Deployment into Github Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: Frontend/Restaurant.System.Web/dist/Restaurant.System.Web/browser
+
+  deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.output.page_url }}
+    runs-on: ubuntu-latest
+    needs: frontend
+    if: startsWith(github.ref, 'refs/heads/release/')
+
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -23,16 +23,15 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/custom-theme.scss",
-              "src/tailwind-output.css"
+              "src/styles/material/custom-theme.scss",
+              "src/styles.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
             },
-            "outputPath": "dist/Restaurant.System.Web",
-            "baseHref": "/Restaurant.System/Frontend/Restaurant.System.Web/"
+            "outputPath": "dist/Restaurant.System.Web"
           },
           "configurations": {
             "production": {
@@ -168,42 +167,6 @@
               "projects/libs/forms/**/*.html"
             ],
             "eslintConfig": "projects/libs/forms/eslint.config.js"
-          }
-        }
-      }
-    },
-    "mat-forms": {
-      "projectType": "library",
-      "root": "projects/libs/mat-forms",
-      "sourceRoot": "projects/libs/mat-forms/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/mat-forms/tsconfig.spec.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/mat-forms/**/*.ts",
-              "projects/libs/mat-forms/**/*.html"
-            ],
-            "eslintConfig": "projects/libs/mat-forms/eslint.config.js"
           }
         }
       }

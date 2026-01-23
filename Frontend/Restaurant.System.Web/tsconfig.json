@@ -17,7 +17,7 @@
       "auth": [
         "./dist/auth"
       ],
-      "forms": [
+      "@rs/forms": [
         "./dist/forms"
       ]
     },
@@ -25,6 +25,8 @@
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -59,12 +61,6 @@
     },
     {
       "path": "./projects/libs/forms/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/libs/mat-forms/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/libs/mat-forms/tsconfig.spec.json"
     }
   ]
 }

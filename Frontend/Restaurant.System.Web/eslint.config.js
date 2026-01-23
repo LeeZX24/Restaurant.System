@@ -1,43 +1,42 @@
-// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
+import { defineConfig } from "eslint/config";
 
-module.exports = tseslint.config(
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import angular from "angular-eslint";
+
+export default defineConfig([
+  js.configs.recommended,
   {
-    files: ['src/**/*.ts'],
+    files: ["src/**/*.ts"],
     extends: [
-      eslint.configs.recommended,
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
+      ...angular.configs.tsRecommended
     ],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 2026,
+        sourceType: "module",
+      },
+    },
     processor: angular.processInlineTemplates,
     rules: {
       "@angular-eslint/directive-selector": [
         "error",
-        {
-          type: "attribute",
-          prefix: ["app", "rs"],
-          style: "camelCase",
-        },
+        { type: "attribute", prefix: ["app", "rs"], style: "camelCase" }
       ],
       "@angular-eslint/component-selector": [
         "error",
-        {
-          type: "element",
-          prefix: ["app", "rs"],
-          style: "kebab-case",
-        },
-      ],
-    },
+        { type: "element", prefix: ["app", "rs"], style: "kebab-case" }
+      ]
+    }
   },
   {
     files: ['src/**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      ...angular.configs.templateAccessibility
     ],
     rules: {},
   }
-);
+]);

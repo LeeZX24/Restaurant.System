@@ -59,6 +59,7 @@ Backend/*.VC.db
 
 #Backend Specific Folder
 Backend/**/Migrations
+Backend/.vs/
 
 # ============================================
 # DOCKER

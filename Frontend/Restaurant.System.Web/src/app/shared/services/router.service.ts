@@ -14,4 +14,8 @@ export class RouterService {
   public gotoLogin(): void {
     this.go('/login');
   }
+
+  public gotoRegister(): void {
+    this.go('/register');
+  }
 }
