@@ -7,7 +7,7 @@ import { LoadingService } from '../services/loading.service';
 export class LoadingInterceptor implements HttpInterceptor {
   private loadingService = inject(LoadingService);
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.loadingService.startLoading();
 
     return next.handle(req).pipe(

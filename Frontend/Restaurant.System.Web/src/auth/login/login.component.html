@@ -30,7 +30,9 @@
       <p class="text-center text-sm mt-4">
         No account?
         <!-- <a href="/register" class="text-blue-600 underline">Register</a> -->
-        <span class="link" (click)="redirectRegister()">Register</span>
+        <span class="link" (click)="redirectRegister()" (keydown.enter)="redirectRegister()"
+  (keydown.space)="redirectRegister()"role="button"
+  tabindex="3">Register</span>
       </p>
     </div>
 
