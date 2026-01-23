@@ -64,15 +64,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SUBMODULE_SSH_KEY }}
 
-      # Setup Node.js
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "20"
-
       - name: Update submodules
         run: |
           git submodule sync --recursive
           git submodule update --init --recursive
+
+      # Setup Node.js
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
 
       - name: Install Frontend dependencies
       - run: CI=true npm ci
