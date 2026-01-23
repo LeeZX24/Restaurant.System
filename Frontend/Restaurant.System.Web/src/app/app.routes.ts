@@ -1,9 +1,39 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './shared/layout/main-layout/main-layout.component';
-import { LoginComponent } from '../auth/login/login.component';
-import { RegisterComponent } from '../auth/register/register.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./shared/layouts/main-layout/main-layout.component').then(c => c.MainLayoutComponent),
+    children: [
+      {
+        path: '',loadComponent: () => import('./shared/layouts/dialog-layout/dialog-layout.component').then(c => c.DialogLayoutComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./shared/layouts/auth-layout/auth-layout.component').then(c => c.AuthLayoutComponent),
+            children: [
+              {
+                path: 'redirect',
+                loadComponent: () => import('./shared/components/redirect/redirect.component').then(c=> c.RedirectComponent),
+              },
+              {
+                path: 'login',
+                loadComponent: () => import('../auth/login/login.component').then(c => c.LoginComponent)
+              },
+              {
+                path: 'register',
+                loadComponent: () => import('../auth/register/register.component').then(c => c.RegisterComponent)
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  }
   // default route
   // {
   //   path: '',
@@ -15,34 +45,16 @@ export const routes: Routes = [
   //     },
   //   ],
   // },
-  {
-    path: 'login',
-    component: LayoutComponent,
-    children:[
-      {
-        path: '',
-        component: LoginComponent
-      }
-    ]
-  },
-  {
-    path: 'register',
-    component: LayoutComponent,
-    children:[
-      {
-        path: '',
-        component: RegisterComponent
-      }
-    ]
-  },
-  {
-    path: '',
-    children: [
-      {
-        path: '',
-        redirectTo: '/login',
-        pathMatch: 'full'
-      }
-    ]
-  }
+
+  // {
+  //   path: '',
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: '/login',
+  //       pathMatch: 'full'
+  //     }
+  //   ]
+  // },
+
 ];

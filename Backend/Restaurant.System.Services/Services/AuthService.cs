@@ -44,19 +44,14 @@ namespace Restaurant.System.Services.Services
                 {
                     var member = await _memberService.GetMemberByCustomer(customer.CustomerId);
 
-                    Console.WriteLine(member);
-
                 if (member != null)
                 {
-                    Console.WriteLine("Member exist");
                     //Check Password
                     // var passwordValid = BCrypt.Net.BCrypt.Verify(user.Password, member.Password);
                     // if(passwordValid)
 
                     if(user.Password == member.Password)
                     {
-                        Console.WriteLine("Password Correct");
-
                         userDto.Email = user.Email;
                         userDto.Password = user.Password;
                         userDto.Token = GenerateJwtToken(member.MemberId.ToString(), member.Email, "User", "Customer") ?? "1";

@@ -8,6 +8,14 @@ using Restaurant.System.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        name: "PostgreSQL",
+        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+        tags: ["db", "postgres"])
+    .AddCheck("self", () =>  Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevelopmentPolicy", policy =>
@@ -85,6 +93,8 @@ builder.Services.AddDataDependencies();
 builder.Services.AddServiceDependencies();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/api/ishealthy");
 
 // if(!app.Environment.IsDevelopment())
 // {

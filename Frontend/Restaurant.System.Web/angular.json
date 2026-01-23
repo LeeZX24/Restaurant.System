@@ -23,16 +23,15 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/custom-theme.scss",
-              "src/tailwind-output.css"
+              "src/styles/material/custom-theme.scss",
+              "src/styles.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
             },
-            "outputPath": "dist/Restaurant.System.Web",
-            "baseHref": "/Restaurant.System/Frontend/Restaurant.System.Web/"
+            "outputPath": "dist/Restaurant.System.Web"
           },
           "configurations": {
             "production": {
