@@ -74,16 +74,12 @@ jobs:
           git submodule sync --recursive
           git submodule update --init --recursive
 
-      - name: Install submodules Dependencies
-        run: npm ci
-        working-directory: Frontend/Restaurant.System.Web/projects
+      - name: Install Frontend dependencies
+      - run: CI=true npm ci
+        working-directory: Frontend/Restaurant.System.Web
 
       - name: Build submodules
-        run: npm run build
-        working-directory: Frontend/Restaurant.System.Web/projects
-
-      - name: Install main Frontend dependencies
-      - run: npm ci
+        run: CI=true npm run build:forms
         working-directory: Frontend/Restaurant.System.Web
 
       # Run lint, tests, build
