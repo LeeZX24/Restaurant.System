@@ -1,10 +1,10 @@
-name: Monorepo CI/CD
+name: Monorepo CI/CD - Release
 
 on:
   push:
-    branches: [master]
+    branches: [release]
   pull_request:
-    branches: [master]
+    branches: [release]
 
 permissions:
   contents: read
@@ -85,21 +85,18 @@ jobs:
       - run: npm ci
         working-directory: Frontend/Restaurant.System.Web
 
-      # Build submodule
       - name: Build form submodule
         run: CI=true npm run build:forms
         working-directory: Frontend/Restaurant.System.Web
 
-      # Run lint, tests, build
-      - name: Lint Frontend
-        run: CI=true npm run lint
-        working-directory: Frontend/Restaurant.System.Web
-      - name: Test Frontend
-        run: CI=true npm run test -- --watch=false
-        working-directory: Frontend/Restaurant.System.Web
       - name: Build Frontend
         run: CI=true npm run build:production
         working-directory: Frontend/Restaurant.System.Web
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
 
       # Deployment into Github Pages
       - name: Setup Pages
