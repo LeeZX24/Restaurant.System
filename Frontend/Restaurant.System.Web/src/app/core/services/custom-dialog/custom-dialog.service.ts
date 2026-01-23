@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectorRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, Type } from '@angular/core';
+import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable, Injector, PLATFORM_ID, Type } from '@angular/core';
 import { DIALOG_VARIANT } from '../../../shared/dialogs/custom-dialog-base/custom-dialog-variant';
 import { CustomDialogConfig } from '../../../shared/dialogs/custom-dialog-base/custom-dialog.config';
 import { CustomDialogRef } from '../../../shared/dialogs/custom-dialog-base/custom-dialog.ref';

@@ -1,5 +1,4 @@
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -14,9 +13,9 @@ import { RouterService } from '../../services/router.service';
   selector: 'rs-dialog-layout',
   templateUrl: './dialog-layout.component.html',
   styleUrls: ['./dialog-layout.component.css'],
-  imports: [RouterOutlet, CommonModule, MatDialogModule]
+  imports: [RouterOutlet, CommonModule]
 })
-export class DialogLayoutComponent {
+export class DialogLayoutComponent implements OnInit {
   private routerService = inject(RouterService);
   private httpClient = inject(HttpClient);
   private dialogService = inject(CustomDialogService);
@@ -63,8 +62,8 @@ export class DialogLayoutComponent {
   }
 
   openErrorDialog(T?: unknown) {
-    let errorMessage: string = '';
-    let errorCode: string = '';
+    let errorMessage = '';
+    let errorCode = '';
     if (T instanceof HttpErrorResponse) {
       errorMessage = T.message;
       errorCode = T.status.toString();

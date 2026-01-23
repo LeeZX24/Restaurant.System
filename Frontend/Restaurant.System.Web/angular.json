@@ -170,42 +170,6 @@
           }
         }
       }
-    },
-    "mat-forms": {
-      "projectType": "library",
-      "root": "projects/libs/mat-forms",
-      "sourceRoot": "projects/libs/mat-forms/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/libs/mat-forms/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/mat-forms/tsconfig.spec.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/mat-forms/**/*.ts",
-              "projects/libs/mat-forms/**/*.html"
-            ],
-            "eslintConfig": "projects/libs/mat-forms/eslint.config.js"
-          }
-        }
-      }
     }
   },
   "cli": {

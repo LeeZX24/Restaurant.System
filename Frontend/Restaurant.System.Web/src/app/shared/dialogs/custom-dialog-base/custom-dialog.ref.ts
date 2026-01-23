@@ -1,4 +1,5 @@
 import { Observable, Subject } from "rxjs";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class CustomDialogRef<T, R = unknown> {
   private readonly _afterClosed = new Subject<R | undefined>();
   private readonly _afterOpened = new Subject<void>();

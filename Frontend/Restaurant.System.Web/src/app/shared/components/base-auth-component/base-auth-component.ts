@@ -61,6 +61,8 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
           disableClose: true,
           closeOnBackdropClick: false,
         });
+
+        dialogRef.afterOpened().subscribe();
       }
     }
     // 3. Redirect
@@ -76,6 +78,8 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
       disableClose: true,
       closeOnBackdropClick: false
     });
+
+    dialogRef.afterOpened().subscribe();
   }
 
   protected redirectRegister() {

@@ -1,7 +1,4 @@
-import { CustomDialogConfig } from "./custom-dialog.config";
-import { CustomDialogRef } from "./custom-dialog.ref";
-
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export abstract class CustomDialogBase<T = unknown> {
   abstract close(result?: unknown): void;
 }

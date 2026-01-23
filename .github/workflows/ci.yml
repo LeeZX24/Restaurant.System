@@ -64,24 +64,25 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SUBMODULE_SSH_KEY }}
 
-      - name: Update submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
-
       # Setup Node.js
       - uses: actions/setup-node@v6
         with:
           node-version: "20"
 
-      - name: DEBUG npm ci environment
+      - name: Update submodules
         run: |
-          pwd
-          ls -la
-          ls -la package-lock.json
-        working-directory: Frontend/Restaurant.System.Web
+          git submodule sync --recursive
+          git submodule update --init --recursive
 
-      # Install Angular dependencies
+      - name: Install submodules Dependencies
+        run: npm ci
+        working-directory: Frontend/Restaurant.System.Web/projects
+
+      - name: Build submodules
+        run: npm run build
+        working-directory: Frontend/Restaurant.System.Web/projects
+
+      - name: Install main Frontend dependencies
       - run: npm ci
         working-directory: Frontend/Restaurant.System.Web
 

@@ -1,8 +1,8 @@
 <!-- @if(dialog.isVisible) { -->
-  <div class="custom-dialog" (click)="onBackdropClick($event)">
+  <div class="custom-dialog" role="button" tabindex="0" (click)="onBackdropClick($event)">
     <div class="custom-dialog-container" #dialogBody
       [ngClass]="variantClass"
-      (click)="$event.stopPropagation()">
+      (click)="$event.stopPropagation()" role="button" tabindex="1">
 
       @if(config.hasHeader) {
         <ng-container>

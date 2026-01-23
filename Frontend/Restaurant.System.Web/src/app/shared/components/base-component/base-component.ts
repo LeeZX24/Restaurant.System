@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { SubscriptionBase } from '../../../core/entities/subscription-base';
@@ -32,7 +32,7 @@ export abstract class BaseComponent<TRequest extends BaseDto> extends Subscripti
     this._setFormControlsTouched(this.form.controls);
   }
 
-  private _setFormControlsTouched(controls: { [key: string]: AbstractControl }): void {
+  private _setFormControlsTouched(controls: Record<string, AbstractControl>): void {
     for (const key in controls) {
       if(Object.prototype.hasOwnProperty.call(controls, key)) {
         const control = controls[key];
