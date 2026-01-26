@@ -3,7 +3,7 @@
     "release",
     { "name": "master", "channel": "next", "prerelease": "beta" }
   ],
-  "tagFormat":false,
+  "tagFormat":"v${version}",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
