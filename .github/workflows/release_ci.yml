@@ -2,9 +2,9 @@ name: Monorepo CI/CD - Release
 
 on:
   push:
-    branches: [release]
+    branches: [master, release]
   pull_request:
-    branches: [release]
+    branches: [master, release]
 
 permissions:
   contents: read
@@ -37,6 +37,8 @@ jobs:
           package: ./publish
 
   frontend:
+    if: github.ref == 'refs/heads/release'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -61,13 +63,6 @@ jobs:
           node-version: "lts/*"
           check-latest: true
 
-      - name: DEBUG npm ci environment
-        run: |
-          pwd
-          ls -la
-          ls -la package-lock.json
-        working-directory: Frontend/Restaurant.System.Web
-
       # Install Angular dependencies
       - run: npm ci
         working-directory: Frontend/Restaurant.System.Web
@@ -81,9 +76,9 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Run Semantic Release
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
 
       # Deployment into Github Pages
       - name: Setup Pages
