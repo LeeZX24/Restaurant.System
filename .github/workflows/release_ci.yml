@@ -15,20 +15,6 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        ports:
-          - 1433:1433
-        env:
-          SA_PASSWORD: "Your_password123"
-          ACCEPT_EULA: "Y"
-        options: >-
-          --health-cmd "exit 0"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v6
 
@@ -37,19 +23,18 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      # Restore, build, and test backend
-      - name: Restore .NET projects
-        run: dotnet restore Backend/Backend.sln
+      # Build and publish Backend
+      - name: Publish Backend
+        # This creates a 'publish' folder containing the .dll and the wwwroot (frontend)
+        run: dotnet publish Backend/Backend.sln -c Release -o ./publish
 
-      - name: Build .NET projects
-        run: dotnet build Backend/Backend.sln --no-restore --configuration Release
-
-      - name: Run backend tests
-        run: dotnet test Backend/Backend.sln --no-build --verbosity normal
-
-      # Optional: Build and test backend Docker image
-      # - name: Build backend Docker image
-      #   run: docker build -t backend:ci -f Dockerfile .
+      # 4. Deploy to Azure
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "restaurant-system" # Replace with your Azure App Name
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8A01CED82F984909AC5E1DB12C7D0721 }}
+          package: ./publish
 
   frontend:
     runs-on: ubuntu-latest
@@ -58,6 +43,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: false
+          fetch-depth: 0
 
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.9.1
