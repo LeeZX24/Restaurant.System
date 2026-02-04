@@ -68,21 +68,13 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: "Restaurant.System"
 
-      - name: Get GitHub App User ID
-        id: get-user-id
-        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}-bot" --jq .id)" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      - run: |
-          git config --global user.name '${{ steps.app-token.outputs.semantic-release-bot }}[bot]'
-          git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}-bot@users.noreply.github.com'
-
       - uses: actions/checkout@v6
         with:
           submodules: false
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.head_ref }}
+          persist-credentials: false
 
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.9.1
