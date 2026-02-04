@@ -66,7 +66,7 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: Restaurant.System
+          repositories: "Restaurant.System"
 
       - uses: actions/checkout@v6
         with:
