@@ -68,6 +68,15 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: "Restaurant.System"
 
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.semantic-release-bot }" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+      - run: |
+          git config --global user.name '${{ steps.app-token.outputs.semantic-release-bot }}[bot]'
+          git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.semantic-release-bot }}@users.noreply.github.com'
+
       - uses: actions/checkout@v6
         with:
           submodules: false
