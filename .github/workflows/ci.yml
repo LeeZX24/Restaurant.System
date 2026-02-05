@@ -40,12 +40,12 @@ jobs:
         run: dotnet test Backend/Backend.sln --no-build --verbosity normal
 
       - name: Publish Backend
-        if: github.ref == 'refs/heads/release'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/release'
         run: dotnet publish Backend/Backend.sln -c Release -o ./publish
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        if: github.ref == 'refs/heads/release'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/release'
         with:
           app-name: "restaurant-system"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8A01CED82F984909AC5E1DB12C7D0721 }}
@@ -112,13 +112,13 @@ jobs:
 
       - name: Run Semantic Release
         run: npx semantic-release
-        if: github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master'
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master')
         working-directory: Frontend/Restaurant.System.Web
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Refresh repo after release
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release'
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         run: |
           git fetch origin --tags
           git reset --hard origin/${GITHUB_REF#refs/heads/}
@@ -133,6 +133,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Frontend Beta Environment
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         run: |
           if [ -f src/assets/app-meta.js ]; then
             rm src/assets/app-meta.js
@@ -163,6 +164,7 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Build Frontend Release Environment
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         run: |
           if [ -f src/assets/app-meta.js ]; then
             rm src/assets/app-meta.js
@@ -194,9 +196,12 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Setup Pages
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
+
         uses: actions/configure-pages@v5
 
       - name: Prepare Pages
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         run: |
           mkdir -p site
           mkdir -p site/beta
@@ -206,11 +211,13 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Upload Pages Artifact
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         uses: actions/upload-pages-artifact@v4
         with:
           path: Frontend/Restaurant.System.Web/site
 
   deploy-pages:
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
     environment:
       name: github-pages
       url: ${{ steps.deployment.output.page_url }}
