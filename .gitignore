@@ -61,6 +61,8 @@ Backend/*.VC.db
 Backend/**/Migrations
 Backend/.vs/
 
+Backend/**/DataProtection-Keys
+
 # ============================================
 # DOCKER
 # ============================================
