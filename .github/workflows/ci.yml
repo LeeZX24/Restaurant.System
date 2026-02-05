@@ -60,10 +60,21 @@ jobs:
       id-token: write
 
     steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: "Restaurant.System"
+
       - uses: actions/checkout@v6
         with:
           submodules: false
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
 
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.9.1
@@ -104,7 +115,7 @@ jobs:
         if: github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master'
         working-directory: Frontend/Restaurant.System.Web
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Refresh repo after release
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release'
