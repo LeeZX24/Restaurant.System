@@ -1,11 +1,9 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Restaurant.System.Api.HealthChecks;
 using Restaurant.System.Data;
 using Restaurant.System.Data.Extensions;
 using Restaurant.System.Services.Extensions;
@@ -89,6 +87,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new Exception("JWT key missing"));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -103,8 +104,8 @@ options.TokenValidationParameters = new TokenValidationParameters
     ValidateIssuerSigningKey = true,
     ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
     ValidAudience = builder.Configuration["JwtSettings:Audience"],
-    IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ClockSkew = TimeSpan.Zero
 });
 
 // .AddGoogle(options =>
@@ -131,8 +132,12 @@ options.TokenValidationParameters = new TokenValidationParameters
 //     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 // });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connStr));
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseNpgsql(connStr, 
+        b => b.MigrationsAssembly("Restaurant.System.Data")
+        .EnableRetryOnFailure()
+    )
+);
 
 builder.Services.AddDataDependencies();
 builder.Services.AddServiceDependencies();
