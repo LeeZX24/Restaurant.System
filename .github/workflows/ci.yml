@@ -159,7 +159,7 @@ jobs:
 
           CI=true npm run build:beta -- \
             --base-href=/Restaurant.System/beta/ \
-            --deploy-url=/Restaurant.System/beta/ \
+            --prerender=false \
             --output-path=dist/beta
 
           grep -R "APP_META" dist/beta/browser || echo "Version replaced ✅"
@@ -191,7 +191,7 @@ jobs:
 
           CI=true npm run build:production -- \
             --base-href=/Restaurant.System/ \
-            --deploy-url=/Restaurant.System/ \
+            --prerender=false \
             --output-path=dist/release
 
           grep -R "APP_META" dist/release/browser || echo "Version replaced ✅"
