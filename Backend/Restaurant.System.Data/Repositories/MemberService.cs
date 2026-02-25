@@ -14,18 +14,30 @@ namespace Restaurant.System.Data.Repositories
 
         public async Task<List<Member>> GetMemberList() => await _memberRepository.GetAllAsync();
 
-        public async Task<Member> GetMemberDetail(string MemberId)
+        public async Task<Member> GetMemberDetail(Guid MemberId)
         {
             var member = (await _memberRepository.GetByFieldAsync(e => e.MemberId == MemberId)).FirstOrDefault();
-            
+
             return member;
         }
 
-        public async Task<Member> GetMemberByCustomer(string CustomerId)
+        public async Task<Member> GetMemberByCustomer(Guid CustomerId)
         {
             var member = (await _memberRepository.GetByFieldAsync(e => e.CustomerId == CustomerId)).FirstOrDefault();
-            
+
             return member;
+        }
+        public async Task<Member> GetMemberByEmail(string Email)
+        {
+            var member = (await _memberRepository.GetByFieldAsync(e => e.Email == Email)).FirstOrDefault();
+
+            return member;
+        }
+
+        public async Task AddNewMember(Member newMember)
+        {
+            await _memberRepository.AddAsync(newMember);
+            await _memberRepository.SaveChangesAsync();
         }
     }
 }
