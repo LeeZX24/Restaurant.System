@@ -158,7 +158,7 @@ jobs:
           EOF
 
           CI=true npm run build:beta -- \
-            --base-href=/Restaurant.System/beta/ \
+            --deploy-url=/Restaurant.System/beta/ \
             --prerender=false \
             --output-path=dist/beta
 
@@ -190,7 +190,7 @@ jobs:
           EOF
 
           CI=true npm run build:production -- \
-            --base-href=/Restaurant.System/ \
+            --deploy-url=/Restaurant.System/ \
             --prerender=false \
             --output-path=dist/release
 
