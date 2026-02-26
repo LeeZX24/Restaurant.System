@@ -223,9 +223,9 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
           check-latest: true
@@ -243,5 +243,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: "Restaurant.System"  # your Pages project name
-          path: Frontend/Restaurant.System.Web/site
+          wranglerVersion: '4.68.1'
+          command: pages deploy Frontend/Restaurant.System.Web/site --project-name=Restaurant-System
