@@ -243,5 +243,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.68.1'
+          command: pages deploy dist/Restaurant.System.Web/browser --project-name=restaurant-system-web
           workingDirectory: Frontend/Restaurant.System.Web
           
