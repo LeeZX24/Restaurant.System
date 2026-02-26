@@ -1,0 +1,25 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: "0 0 * * 1,3,5"
+  workflow_dispatch:
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase API
+        run: |
+          # This calls a built-in Supabase function to check DB size (very light)
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/get_size_stat" \
+            -H "apikey: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}")
+          
+          if [ "$status_code" -eq 200 ]; then
+            echo "Success: Database is awake (Status $status_code)"
+          else
+            echo "Error: Database might be paused or down! (Status $status_code)"
+            exit 1 # This triggers the 'Failed' email notification to you
+          fi
