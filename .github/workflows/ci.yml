@@ -227,8 +227,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          check-latest: true
+          node-version: 20
 
       - name: Install Dependencies
         run: npm ci
@@ -244,4 +243,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.68.1'
-          command: pages deploy Frontend/Restaurant.System.Web/site --project-name=Restaurant-System
+          command: pages deploy Frontend/Restaurant.System.Web/site
