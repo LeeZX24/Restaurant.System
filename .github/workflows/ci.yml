@@ -224,7 +224,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      
+
       - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v4
@@ -234,3 +234,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: "Restaurant.System"  # your Pages project name
+          path: Frontend/Restaurant.System.Web/site
