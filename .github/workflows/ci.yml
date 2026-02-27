@@ -145,10 +145,7 @@ jobs:
 
           CI=true npm run build:beta -- \
             --deploy-url=/Restaurant.System/beta/ \
-            --prerender=false \
             --output-path=dist/beta
-
-          grep -R "APP_META" dist/beta/browser || echo "Version replaced ✅"
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Build Frontend Release Environment
@@ -177,10 +174,7 @@ jobs:
 
           CI=true npm run build:production -- \
             --deploy-url=/Restaurant.System/ \
-            --prerender=false \
             --output-path=dist/release
-
-          grep -R "APP_META" dist/release/browser || echo "Version replaced ✅"
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Setup Pages
@@ -199,6 +193,7 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Build & Deploy Worker
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master')
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
