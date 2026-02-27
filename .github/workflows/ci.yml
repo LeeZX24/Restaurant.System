@@ -191,15 +191,6 @@ jobs:
           cp -r dist/release/browser/* site/
           cp -r dist/beta/browser/* site/beta/
         working-directory: Frontend/Restaurant.System.Web
-
-      - name: Build & Deploy Worker
-        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master')
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: Frontend/Restaurant.System.Web
-          command: deploy
           
       - name: Upload Pages Artifact
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
