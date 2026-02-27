@@ -199,8 +199,8 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: Frontend/Restaurant.System.Web
-          command: deploy --non-interactive --no-bundle
-
+          command: deploy
+          
       - name: Upload Pages Artifact
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         uses: actions/upload-pages-artifact@v4
