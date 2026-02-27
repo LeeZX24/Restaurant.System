@@ -218,24 +218,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm i -D wrangler@4
         working-directory: Frontend/Restaurant.System.Web
-
-      - name: Deploy to Github Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
 
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.68.1'
-          command: pages deploy dist/Restaurant.System.Web/browser --project-name=restaurant-system-web
           workingDirectory: Frontend/Restaurant.System.Web
+        
           
