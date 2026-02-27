@@ -78,7 +78,7 @@ jobs:
           check-latest: true
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --progress=false
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Build Form Submodule
@@ -86,7 +86,7 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Lint Frontend
-        run: CI=true npm run lint
+        run: CI=true npm run lint -- --watch=false
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Test Frontend
@@ -199,6 +199,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: Frontend/Restaurant.System.Web
+          command: deploy --non-interactive --no-bundle
 
       - name: Upload Pages Artifact
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
