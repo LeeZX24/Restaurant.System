@@ -198,6 +198,13 @@ jobs:
           cp -r dist/beta/browser/* site/beta/
         working-directory: Frontend/Restaurant.System.Web
 
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: Frontend/Restaurant.System.Web
+
       - name: Upload Pages Artifact
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         uses: actions/upload-pages-artifact@v4
@@ -216,25 +223,6 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        run: npm i -D wrangler@4
-        working-directory: Frontend/Restaurant.System.Web
-
-      - name: Build & Deploy Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: Frontend/Restaurant.System.Web
-        
-          
