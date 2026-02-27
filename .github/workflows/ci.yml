@@ -86,7 +86,7 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Lint Frontend
-        run: CI=true npm run lint -- --watch=false
+        run: CI=true npm run lint
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Test Frontend
