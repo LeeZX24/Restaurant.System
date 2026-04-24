@@ -1,13 +1,14 @@
 using System.Text;
+using LogDashboard;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Restaurant.System.Data;
 using Restaurant.System.Data.Extensions;
 using Restaurant.System.Services.Extensions;
-using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +75,12 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("ProductionPolicy", policy =>
     {
-        policy.WithOrigins("https://leezx24.github.io")
+        policy.WithOrigins(
+            [
+                "https://stunning-chainsaw-97w55xrwvv7whj67-4200.app.github.dev",
+                "https://leezx24.github.io",
+                "https://restaurant-system-web-beta.onrender.com"
+            ])
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -132,8 +138,8 @@ options.TokenValidationParameters = new TokenValidationParameters
 //     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 // });
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseNpgsql(connStr, 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connStr,
         b => b.MigrationsAssembly("Restaurant.System.Data")
         .EnableRetryOnFailure()
     )
@@ -146,6 +152,8 @@ builder.Services.AddDataProtection()
         .PersistKeysToFileSystem(
             new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys")))
         .SetApplicationName("Restaurant.System");
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -171,13 +179,13 @@ app.MapHealthChecks("/api/ishealthy", new HealthCheckOptions
     }
 });
 
-// if(!app.Environment.IsDevelopment())
-// {
-//     app.UseHttpsRedirection();
-// }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseRouting();
-app.UseCors(app.Environment.IsDevelopment() ? "DevelopmentPolicy" : "ProductionPolicy");
+app.UseCors("ProductionPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -195,6 +203,52 @@ app.UseStaticFiles();
 app.MapControllers();
 app.MapFallbackToFile("index.html"); // <-- For Angular routes
 
-app.MapGet("/", () => Results.Text("API running"));
+app.MapHub<LogHub>("/logsHub");
+var hubContext = app.Services.GetRequiredService<IHubContext<LogHub>>();
+var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+
+loggerFactory.AddProvider(new SignalRLoggerProvider(hubContext));
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapGet("/", async context =>
+    {
+        var html = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Live Logs</title>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+            </head>
+            <body style="background:black;color:lime;font-family:monospace;">
+                <h3>Live Logs</h3>
+                <pre id="logs"></pre>
+
+                <script>
+                    const connection = new signalR.HubConnectionBuilder()
+                        .withUrl("/logsHub")
+                        .build();
+
+                    connection.on("ReceiveLog", message => {
+                        const logs = document.getElementById("logs");
+                        logs.textContent += message + "\\n";
+                        window.scrollTo(0, document.body.scrollHeight);
+                    });
+
+                    connection.start();
+                </script>
+            </body>
+            </html>
+            """;
+
+        context.Response.ContentType = "text/html";
+        await context.Response.WriteAsync(html);
+    });
+}
+else
+{
+    app.MapGet("/", () => Results.Text("API running"));
+}
+
 
 app.Run();
