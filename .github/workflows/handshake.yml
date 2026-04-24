@@ -6,20 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  ping-database:
+  health-check:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Ping Supabase API
+      - name: Check Supabase DB
         run: |
-          # This calls a built-in Supabase function to check DB size (very light)
-          status_code=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/get_size_stat" \
-            -H "apikey: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}")
-          
-          if [ "$status_code" -eq 200 ]; then
-            echo "Success: Database is awake (Status $status_code)"
-          else
-            echo "Error: Database might be paused or down! (Status $status_code)"
-            exit 1 # This triggers the 'Failed' email notification to you
+          response=$(curl -s -w "\n%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/heartbeat?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+
+          body=$(echo "$response" | head -n 1)
+          status=$(echo "$response" | tail -n 1)
+
+          echo "Response: $body"
+          echo "HTTP: $status"
+
+          if [ "$status" != "200" ]; then
+            echo "Supabase health check FAILED"
+            exit 1
           fi
