@@ -160,10 +160,20 @@ jobs:
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
         run: |
           mkdir -p site
-          mkdir -p site/beta
 
-          cp -r dist/release/browser/* site/
-          cp -r dist/beta/browser/* site/beta/
+          if [[ "${{ github.ref }}" == "refs/heads/release" ]]; then
+            cp -r dist/release/browser/* site/
+          fi
+
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            mkdir -p site/beta
+
+            cp -r dist/beta/browser/* site/beta/
+            
+            if [ ! -f "site/index.html" ]; then
+               echo '<meta http-equiv="refresh" content="0; url=/Restaurant.System/beta/">' > site/index.html
+            fi
+          fi
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Upload Pages Artifact
@@ -171,7 +181,6 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: Frontend/Restaurant.System.Web/site
-        working-directory: Frontend/Restaurant.System.Web
 
   deploy-pages:
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
