@@ -132,11 +132,13 @@ jobs:
             CI=true npm run build:beta -- \
               --deploy-url=/Restaurant.System/beta/ \
               --output-path=dist/beta
+          fi
 
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
             CI=true npm run build:production -- \
               --deploy-url=/Restaurant.System/ \
               --output-path=dist/release
+          fi
 
         working-directory: Frontend/Restaurant.System.Web
 
