@@ -165,7 +165,7 @@ jobs:
           mkdir -p site/beta
 
           if [[ "${{ github.ref }}" == "refs/heads/release" ]]; then
-            cp -r dist/release/browser/* site/
+            cp -ra dist/release/browser/. site/
             # Rename the CSR file to the standard index.html
             if [ -f "site/index.csr.html" ]; then
               mv site/index.csr.html site/index.html
@@ -173,8 +173,8 @@ jobs:
           fi
 
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            cp -r dist/beta/browser/* site/
-            cp -r dist/beta/browser/* site/beta/
+            cp -ra dist/beta/browser/. site/
+            cp -ra dist/beta/browser/. site/beta/
 
             [ -f "site/index.csr.html" ] && mv site/index.csr.html site/index.html
             [ -f "site/beta/index.csr.html" ] && mv site/beta/index.csr.html site/beta/index.html
