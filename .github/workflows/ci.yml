@@ -102,7 +102,6 @@ jobs:
 
       - name: Generate App Meta
         if: github.event_name != 'pull_request'
-        working-directory: Frontend/Restaurant.System.Web
         run: |
           export APP_VERSION=${{ steps.next_version.outputs.version }}
 
@@ -143,8 +142,8 @@ jobs:
 
       - name: Run Semantic Release
         id: semantic
-        run: npx semantic-release
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master')
+        run: npx semantic-release
         working-directory: Frontend/Restaurant.System.Web
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
