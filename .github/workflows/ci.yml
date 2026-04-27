@@ -97,6 +97,7 @@ jobs:
           # Use semantic-release dry-run to see what the next version is
           NEXT_VER=$(npx semantic-release --dry-run | grep 'The next release version is' | sed 's/.*is //')
           echo "version=${NEXT_VER:-0.0.0-snapshot}" >> $GITHUB_OUTPUT
+        working-directory: Frontend/Restaurant.System.Web
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
