@@ -151,14 +151,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
-      - name: Inject Final Version
-        if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-          NEW_VER=${{ steps.semantic.outputs.new_release_version }}
-          # Find and replace the placeholder in all JS files in the dist folder
-          find dist/ -name "*.js" -exec sed -i "s/APP_VERSION_PLACEHOLDER/$NEW_VER/g" {} +
-        working-directory: Frontend/Restaurant.System.Web
-
       - name: Setup Pages
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
 
@@ -179,6 +171,7 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: Frontend/Restaurant.System.Web/site
+        working-directory: Frontend/Restaurant.System.Web
 
   deploy-pages:
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
