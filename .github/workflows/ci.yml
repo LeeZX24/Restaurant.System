@@ -106,10 +106,6 @@ jobs:
         run: |
           export APP_VERSION=${{ steps.next_version.outputs.version }}
 
-          # 1. Determine Version
-          CURRENT_VER=$(node -p "require('./package.json').version")
-          VERSION="$CURRENT_VER-build.${{ github.run_number }}"
-
           # 2. Determine Channel
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
             CHANNEL="beta"
@@ -202,3 +198,11 @@ jobs:
       - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Deploy to Render Beta
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND_BETA_URL }}
+
+      - name: Deploy to Render Release
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND_RELEASE_URL }}
