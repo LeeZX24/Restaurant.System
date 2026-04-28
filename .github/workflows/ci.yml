@@ -130,7 +130,7 @@ jobs:
             --deploy-url=/Restaurant.System/beta/ \
             --output-path=dist/beta
 
-          CI=true npm run build:production -- \
+          CI=true npm run build:release -- \
             --base-href=/Restaurant.System/ \
             --deploy-url=/Restaurant.System/ \
             --output-path=dist/release
