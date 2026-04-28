@@ -125,19 +125,15 @@ jobs:
           };
           EOF
 
-          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            CI=true npm run build:beta -- \
-              --base-href=/Restaurant.System/beta/ \
-              --deploy-url=/Restaurant.System/beta/ \
-              --output-path=dist/beta
-          fi
+          CI=true npm run build:beta -- \
+            --base-href=/Restaurant.System/beta/ \
+            --deploy-url=/Restaurant.System/beta/ \
+            --output-path=dist/beta
 
-          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            CI=true npm run build:production -- \
-              --base-href=/Restaurant.System/ \
-              --deploy-url=/Restaurant.System/ \
-              --output-path=dist/release
-          fi
+          CI=true npm run build:production -- \
+            --base-href=/Restaurant.System/ \
+            --deploy-url=/Restaurant.System/ \
+            --output-path=dist/release
 
         working-directory: Frontend/Restaurant.System.Web
 
