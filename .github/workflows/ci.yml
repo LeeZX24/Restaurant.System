@@ -52,7 +52,6 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
-      releases: write
 
     steps:
       - uses: actions/create-github-app-token@v2
