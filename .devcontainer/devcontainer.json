@@ -6,8 +6,9 @@
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
-    }
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "postCreateCommand": "dotnet restore Backend/Restaurant.System.Api && cd Frontend/Restaurant.System.Web && npm install",
   "customizations": {

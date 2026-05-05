@@ -52,6 +52,7 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
+      releases: write
 
     steps:
       - uses: actions/create-github-app-token@v2
@@ -147,7 +148,6 @@ jobs:
 
       - name: Setup Pages
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release')
-
         uses: actions/configure-pages@v5
 
       - name: Prepare Pages
@@ -156,21 +156,11 @@ jobs:
           mkdir -p site
           mkdir -p site/beta
 
-          if [[ "${{ github.ref }}" == "refs/heads/release" ]]; then
-            cp -r dist/release/browser/* site/
-            # Rename the CSR file to the standard index.html
-            if [ -f "site/index.csr.html" ]; then
-              mv site/index.csr.html site/index.html
-            fi
-          fi
+          cp -r dist/release/browser/* site/
+          cp -r dist/beta/browser/* site/beta/
 
-          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            cp -r dist/beta/browser/* site/
-            cp -r dist/beta/browser/* site/beta/
-
-            [ -f "site/index.csr.html" ] && mv site/index.csr.html site/index.html
-            [ -f "site/beta/index.csr.html" ] && mv site/beta/index.csr.html site/beta/index.html
-          fi
+          [ -f "site/index.csr.html" ] && mv site/index.csr.html site/index.html
+          [ -f "site/beta/index.csr.html" ] && mv site/beta/index.csr.html site/beta/index.html
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Upload Pages Artifact
@@ -196,9 +186,11 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Deploy to Render Beta
+        if: github.ref == 'refs/heads/master'
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND_BETA_URL }}
 
       - name: Deploy to Render Release
+        if: github.ref == 'refs/heads/release'
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND_RELEASE_URL }}
