@@ -82,7 +82,9 @@ jobs:
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Build Form Submodule
-        run: CI=true npm run build:forms
+        run: |
+          CI=true npm run build:forms
+          npm run build:dialogs
         working-directory: Frontend/Restaurant.System.Web
 
       - name: Lint Frontend
