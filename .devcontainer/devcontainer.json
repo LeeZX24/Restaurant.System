@@ -22,7 +22,7 @@
   },
   "forwardPorts": [4200, 5000, 5001],
   "portsAttributes": {
-    "4200": { "label": "Angular (Dev)", "onAutoForward": "openPreview" },
+    "4200": { "label": "Angular (Dev)" },
     "5000": { "label": "API HTTP" },
     "5001": { "label": "API HTTPS" }
   },
