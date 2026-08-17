@@ -10,7 +10,7 @@
     },
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "dotnet restore Backend/Restaurant.System.Api && cd Frontend/Restaurant.System.Web && npm install",
+  "postCreateCommand": "git submodule update --init --recursive && dotnet restore Backend/Restaurant.System.Api && cd Frontend/Restaurant.System.Web && npm install",
   "customizations": {
     "vscode": {
       "extensions": [
