@@ -65,7 +65,6 @@ Backend/*.DotSettings.user
 Backend/*.VC.db
 
 #Backend Specific Folder
-Backend/**/Migrations
 Backend/.vs/
 
 Backend/**/DataProtection-Keys
