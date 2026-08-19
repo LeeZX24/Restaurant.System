@@ -34,9 +34,9 @@ namespace Restaurant.System.Controllers.Controllers
             {
                 return Unauthorized(new { Message = ex.Message });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "Internal server error" }); // 500
+                return StatusCode(500, new { Message = ex.StackTrace }); // 500
             }
         }
 
