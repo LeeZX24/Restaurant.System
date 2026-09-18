@@ -1,3 +1,7 @@
 [submodule "Frontend"]
 	path = Frontend
 	url = https://github.com/LeeZX24/Restaurant.System.Frontend.git
+
+[submodule "Backend"]
+	path = Backend
+	url = https://github.com/LeeZX24/Restaurant.System.Backend.git
