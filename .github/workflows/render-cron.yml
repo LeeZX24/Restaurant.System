@@ -10,5 +10,3 @@ jobs:
     steps:
       - name: Call Health Check (Render)
         run: curl -s https://restaurant-system-jtp3.onrender.com/api/ishealthy
-      - name: Call Health Check (SnapDeploy)
-        run: curl - shttps://restaurant-system-backend-beta-e8b87.containers.snapdeploy.app//api/ishealthy
